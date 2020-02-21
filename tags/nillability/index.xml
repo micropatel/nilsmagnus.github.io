@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nillability on Random codewalks</title>
-    <link>/tags/nillability/</link>
+    <link>https://nilsmagnus.github.io/tags/nillability/</link>
     <description>Recent content in nillability on Random codewalks</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 06 Nov 2018 20:43:58 +0100</lastBuildDate>
     
-	<atom:link href="/tags/nillability/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nilsmagnus.github.io/tags/nillability/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Nillability and zero-values in go</title>
-      <link>/post/nillability-in-go/</link>
+      <link>https://nilsmagnus.github.io/post/nillability-in-go/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>/post/nillability-in-go/</guid>
+      <guid>https://nilsmagnus.github.io/post/nillability-in-go/</guid>
       <description>Beeing a long time java-developer, I am obsessed with null-checking and handling null values. In golang, the story is somewhat different. In this post I will try to describe how nil and zero-values are used in golang.
 non-nillable and nillable types Types can be either nillable or non-nillable in go. The non-nillable types can never be nil and will never cause you a nil-panic (the java equivalent of nullpointerexception) But when are dealing with the nillable types, we have to take a bit of caution although not as much as in java(or other languages with nillable types).</description>
     </item>

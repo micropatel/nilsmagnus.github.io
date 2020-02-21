@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Random codewalks</title>
-    <link>/</link>
+    <link>https://nilsmagnus.github.io/</link>
     <description>Recent content on Random codewalks</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 21 Feb 2020 12:47:49 +0100</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nilsmagnus.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Me</title>
-      <link>/about/me/</link>
+      <link>https://nilsmagnus.github.io/about/me/</link>
       <pubDate>Fri, 21 Feb 2020 12:47:49 +0100</pubDate>
       
-      <guid>/about/me/</guid>
+      <guid>https://nilsmagnus.github.io/about/me/</guid>
       <description>Programmer, father, nerd
 twitter: nils_magnus mail: nilsmagnus @ gmail
 work: https://kodemaker.no</description>
@@ -24,10 +24,10 @@ work: https://kodemaker.no</description>
     
     <item>
       <title>Using YOLO models on nvidia jetson</title>
-      <link>/post/yolo-jetson/</link>
+      <link>https://nilsmagnus.github.io/post/yolo-jetson/</link>
       <pubDate>Tue, 21 Jan 2020 07:44:01 +0100</pubDate>
       
-      <guid>/post/yolo-jetson/</guid>
+      <guid>https://nilsmagnus.github.io/post/yolo-jetson/</guid>
       <description>YOLO is a highly optimized machine-learning model to recognize objects in videos and images. Running these on your jetson nano is a great test of your board and a bit of fun. To use these awesome models you need to install darknet, the program that runs interference on a video stream from your camera.
 What you need:
  Jetson Nano Developer Kit with Jetson Nano Developer Kit SD Card image installed An USB web-camera  Since we have a CUDA gpu on the jetson we should modify the Makefile to enable CUDA and make sure that nvcc is on $PATH.</description>
@@ -35,50 +35,50 @@ What you need:
     
     <item>
       <title>Nillability and zero-values in go</title>
-      <link>/post/nillability-in-go/</link>
+      <link>https://nilsmagnus.github.io/post/nillability-in-go/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>/post/nillability-in-go/</guid>
+      <guid>https://nilsmagnus.github.io/post/nillability-in-go/</guid>
       <description>Beeing a long time java-developer, I am obsessed with null-checking and handling null values. In golang, the story is somewhat different. In this post I will try to describe how nil and zero-values are used in golang.
 non-nillable and nillable types Types can be either nillable or non-nillable in go. The non-nillable types can never be nil and will never cause you a nil-panic (the java equivalent of nullpointerexception) But when are dealing with the nillable types, we have to take a bit of caution although not as much as in java(or other languages with nillable types).</description>
     </item>
     
     <item>
       <title>Write go like a pro</title>
-      <link>/post/write-go-like-a-pro/</link>
+      <link>https://nilsmagnus.github.io/post/write-go-like-a-pro/</link>
       <pubDate>Mon, 24 Sep 2018 18:45:58 +0100</pubDate>
       
-      <guid>/post/write-go-like-a-pro/</guid>
+      <guid>https://nilsmagnus.github.io/post/write-go-like-a-pro/</guid>
       <description>So you enjoy go and are ready to take your go-application to production standards. Here is a listing of some tricks on how to get your application production-ready. Not all these advices will apply to all kinds of applications, pick and choose whatever makes sense to your application.
 Use Make to build and test your app Heavy-weight applications written in heavyweigh JVM languages has gradle/maven/ant/sbt/leiningen. Javascriptish languages has npm/yarn/hotoftheday. For go, you should lean on a rock-solid lightweight tool like Make, to build and test your app.</description>
     </item>
     
     <item>
       <title>Store and forward with kafka</title>
-      <link>/post/store-forward-kafka/</link>
+      <link>https://nilsmagnus.github.io/post/store-forward-kafka/</link>
       <pubDate>Sat, 08 Sep 2018 19:09:58 +0100</pubDate>
       
-      <guid>/post/store-forward-kafka/</guid>
+      <guid>https://nilsmagnus.github.io/post/store-forward-kafka/</guid>
       <description>Store and forward is a technique normally applied in hardware-routing and networking to avoid package-loss. If we apply the same technique when sending records to kafka, we dont have to deal downtime of your kafka-cluster.
 Store and forward &amp;ldquo;Store and forward&amp;rdquo; is a technique used widely in telecommunications and in router technology. The idea is simple: when we want to send a packet, instead of sending it directly, the packet is stored in a cache or a local storage and sent to the network at a later point.</description>
     </item>
     
     <item>
       <title>Concurrency made easy(easier) with coroutines</title>
-      <link>/post/coroutines-basics/</link>
+      <link>https://nilsmagnus.github.io/post/coroutines-basics/</link>
       <pubDate>Sun, 25 Feb 2018 14:28:58 +0100</pubDate>
       
-      <guid>/post/coroutines-basics/</guid>
+      <guid>https://nilsmagnus.github.io/post/coroutines-basics/</guid>
       <description>Coroutines can be looked at as lightweight threads that enables us to write simple concurrent code in kotlin. It enables us to execute concurrent code without much effort and write async code in a sequential style, hiding the noise introduced by explicitly handling async events and callbacks. The result is readable, high-performant code.
 Instead of the dealing with callbacks and synchronisation, the developer can focus on real, value-adding code and let the runtime handle callbacks transparently.</description>
     </item>
     
     <item>
       <title>Using griblib for Meteorology</title>
-      <link>/post/grib2-adventures/</link>
+      <link>https://nilsmagnus.github.io/post/grib2-adventures/</link>
       <pubDate>Fri, 23 Feb 2018 11:09:58 +0100</pubDate>
       
-      <guid>/post/grib2-adventures/</guid>
+      <guid>https://nilsmagnus.github.io/post/grib2-adventures/</guid>
       <description>Griblib is a library written in go to read grib2 files and do some filtering on the content. This post describes some details about how griblib is built and intended usage.
 GRIB2: a binary format for meteorology GRIB: G eneral R egularly-distributed I nformation in B inary form
 Grib2 is a binary file-format used to store forecasts and historical data. The content can be meteorological, space-weather, sea-conditions etc. In this post I will only focus on meteorological data.</description>
@@ -86,20 +86,20 @@ Grib2 is a binary file-format used to store forecasts and historical data. The c
     
     <item>
       <title>Converting an android project to kotlin</title>
-      <link>/post/android-annotations-kotlin/</link>
+      <link>https://nilsmagnus.github.io/post/android-annotations-kotlin/</link>
       <pubDate>Tue, 26 Sep 2017 19:56:52 +0100</pubDate>
       
-      <guid>/post/android-annotations-kotlin/</guid>
+      <guid>https://nilsmagnus.github.io/post/android-annotations-kotlin/</guid>
       <description>This is a small write-up of my experiences from converting a native android-app from java to kotlin.
 TLDR;  Convert the project using android studio Handle nullability-compilation errors Android annotations  build script apply lateinit on @ViewById   Convert your data-objects into small classes, go for immutable classes Kotlin is cool, and immutability rocks. Bugs in android-studio shows that it is still early days for kotlin-development on android.  Convert your project!</description>
     </item>
     
     <item>
       <title>Using your tensorflow model with go</title>
-      <link>/post/go-tensorflow/</link>
+      <link>https://nilsmagnus.github.io/post/go-tensorflow/</link>
       <pubDate>Mon, 03 Jul 2017 15:45:58 +0100</pubDate>
       
-      <guid>/post/go-tensorflow/</guid>
+      <guid>https://nilsmagnus.github.io/post/go-tensorflow/</guid>
       <description>This post will serve as a simple end-to-end example of how to use your own tensorflow-model to do inference in your go-application. You will need to train your own model with tensorflow in order to make it work properly.
 If you are doing inference in java (or any other language) the blogpost will still be useful since the principles are the same for languages with bindings to tensorflow.
 TLDR; Name your tensors and operations in the tensorflow graph before exporting the model.</description>
@@ -107,10 +107,10 @@ TLDR; Name your tensors and operations in the tensorflow graph before exporting 
     
     <item>
       <title>Comparing sizes of protobuf vs json</title>
-      <link>/post/proto-json-sizes/</link>
+      <link>https://nilsmagnus.github.io/post/proto-json-sizes/</link>
       <pubDate>Sun, 09 Apr 2017 21:44:01 +0100</pubDate>
       
-      <guid>/post/proto-json-sizes/</guid>
+      <guid>https://nilsmagnus.github.io/post/proto-json-sizes/</guid>
       <description>update: now comparing gzipped json vs gzipped protobuf
 Google Protobuffer is a binary format claiming to much more compact than json and other text-formats, but just how much less space does it require? Does it hold for large arrays of data?
 In this blogpost I will compare the sizes of the two formats.
@@ -119,10 +119,10 @@ Test-data with array of tickers I will generate test-data with a home made tool,
     
     <item>
       <title>Hello hugo on github.io</title>
-      <link>/post/hello-hugo/</link>
+      <link>https://nilsmagnus.github.io/post/hello-hugo/</link>
       <pubDate>Tue, 14 Mar 2017 19:45:58 +0100</pubDate>
       
-      <guid>/post/hello-hugo/</guid>
+      <guid>https://nilsmagnus.github.io/post/hello-hugo/</guid>
       <description>This blog is built using hugo. So my first blogpost is dedicated to how I set it up on github.
 installation install the bleeding edge hugo version by running
 go get -v github.com/spf13/hugo  verify the installation by typing

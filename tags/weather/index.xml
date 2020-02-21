@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>weather on Random codewalks</title>
-    <link>/tags/weather/</link>
+    <link>https://nilsmagnus.github.io/tags/weather/</link>
     <description>Recent content in weather on Random codewalks</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 23 Feb 2018 11:09:58 +0100</lastBuildDate>
     
-	<atom:link href="/tags/weather/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nilsmagnus.github.io/tags/weather/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Using griblib for Meteorology</title>
-      <link>/post/grib2-adventures/</link>
+      <link>https://nilsmagnus.github.io/post/grib2-adventures/</link>
       <pubDate>Fri, 23 Feb 2018 11:09:58 +0100</pubDate>
       
-      <guid>/post/grib2-adventures/</guid>
+      <guid>https://nilsmagnus.github.io/post/grib2-adventures/</guid>
       <description>Griblib is a library written in go to read grib2 files and do some filtering on the content. This post describes some details about how griblib is built and intended usage.
 GRIB2: a binary format for meteorology GRIB: G eneral R egularly-distributed I nformation in B inary form
 Grib2 is a binary file-format used to store forecasts and historical data. The content can be meteorological, space-weather, sea-conditions etc. In this post I will only focus on meteorological data.</description>

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hugo on Random codewalks</title>
-    <link>/tags/hugo/</link>
+    <link>https://nilsmagnus.github.io/tags/hugo/</link>
     <description>Recent content in Hugo on Random codewalks</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 14 Mar 2017 19:45:58 +0100</lastBuildDate>
     
-	<atom:link href="/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nilsmagnus.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Hello hugo on github.io</title>
-      <link>/post/hello-hugo/</link>
+      <link>https://nilsmagnus.github.io/post/hello-hugo/</link>
       <pubDate>Tue, 14 Mar 2017 19:45:58 +0100</pubDate>
       
-      <guid>/post/hello-hugo/</guid>
+      <guid>https://nilsmagnus.github.io/post/hello-hugo/</guid>
       <description>This blog is built using hugo. So my first blogpost is dedicated to how I set it up on github.
 installation install the bleeding edge hugo version by running
 go get -v github.com/spf13/hugo  verify the installation by typing

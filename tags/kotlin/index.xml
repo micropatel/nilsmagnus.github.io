@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>kotlin on Random codewalks</title>
-    <link>/tags/kotlin/</link>
+    <link>https://nilsmagnus.github.io/tags/kotlin/</link>
     <description>Recent content in kotlin on Random codewalks</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 25 Feb 2018 14:28:58 +0100</lastBuildDate>
     
-	<atom:link href="/tags/kotlin/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nilsmagnus.github.io/tags/kotlin/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Concurrency made easy(easier) with coroutines</title>
-      <link>/post/coroutines-basics/</link>
+      <link>https://nilsmagnus.github.io/post/coroutines-basics/</link>
       <pubDate>Sun, 25 Feb 2018 14:28:58 +0100</pubDate>
       
-      <guid>/post/coroutines-basics/</guid>
+      <guid>https://nilsmagnus.github.io/post/coroutines-basics/</guid>
       <description>Coroutines can be looked at as lightweight threads that enables us to write simple concurrent code in kotlin. It enables us to execute concurrent code without much effort and write async code in a sequential style, hiding the noise introduced by explicitly handling async events and callbacks. The result is readable, high-performant code.
 Instead of the dealing with callbacks and synchronisation, the developer can focus on real, value-adding code and let the runtime handle callbacks transparently.</description>
     </item>
     
     <item>
       <title>Converting an android project to kotlin</title>
-      <link>/post/android-annotations-kotlin/</link>
+      <link>https://nilsmagnus.github.io/post/android-annotations-kotlin/</link>
       <pubDate>Tue, 26 Sep 2017 19:56:52 +0100</pubDate>
       
-      <guid>/post/android-annotations-kotlin/</guid>
+      <guid>https://nilsmagnus.github.io/post/android-annotations-kotlin/</guid>
       <description>This is a small write-up of my experiences from converting a native android-app from java to kotlin.
 TLDR;  Convert the project using android studio Handle nullability-compilation errors Android annotations  build script apply lateinit on @ViewById   Convert your data-objects into small classes, go for immutable classes Kotlin is cool, and immutability rocks. Bugs in android-studio shows that it is still early days for kotlin-development on android.  Convert your project!</description>
     </item>

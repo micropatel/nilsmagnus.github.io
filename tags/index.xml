@@ -2,273 +2,273 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Random codewalks</title>
-    <link>/tags/</link>
+    <link>https://nilsmagnus.github.io/tags/</link>
     <description>Recent content in Tags on Random codewalks</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 21 Jan 2020 07:44:01 +0100</lastBuildDate>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nilsmagnus.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>cuda</title>
-      <link>/tags/cuda/</link>
+      <link>https://nilsmagnus.github.io/tags/cuda/</link>
       <pubDate>Tue, 21 Jan 2020 07:44:01 +0100</pubDate>
       
-      <guid>/tags/cuda/</guid>
+      <guid>https://nilsmagnus.github.io/tags/cuda/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jetson-nano</title>
-      <link>/tags/jetson-nano/</link>
+      <link>https://nilsmagnus.github.io/tags/jetson-nano/</link>
       <pubDate>Tue, 21 Jan 2020 07:44:01 +0100</pubDate>
       
-      <guid>/tags/jetson-nano/</guid>
+      <guid>https://nilsmagnus.github.io/tags/jetson-nano/</guid>
       <description></description>
     </item>
     
     <item>
       <title>opencv</title>
-      <link>/tags/opencv/</link>
+      <link>https://nilsmagnus.github.io/tags/opencv/</link>
       <pubDate>Tue, 21 Jan 2020 07:44:01 +0100</pubDate>
       
-      <guid>/tags/opencv/</guid>
+      <guid>https://nilsmagnus.github.io/tags/opencv/</guid>
       <description></description>
     </item>
     
     <item>
       <title>yolo</title>
-      <link>/tags/yolo/</link>
+      <link>https://nilsmagnus.github.io/tags/yolo/</link>
       <pubDate>Tue, 21 Jan 2020 07:44:01 +0100</pubDate>
       
-      <guid>/tags/yolo/</guid>
+      <guid>https://nilsmagnus.github.io/tags/yolo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>basics</title>
-      <link>/tags/basics/</link>
+      <link>https://nilsmagnus.github.io/tags/basics/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>/tags/basics/</guid>
+      <guid>https://nilsmagnus.github.io/tags/basics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>go</title>
-      <link>/tags/go/</link>
+      <link>https://nilsmagnus.github.io/tags/go/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>/tags/go/</guid>
+      <guid>https://nilsmagnus.github.io/tags/go/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nil</title>
-      <link>/tags/nil/</link>
+      <link>https://nilsmagnus.github.io/tags/nil/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>/tags/nil/</guid>
+      <guid>https://nilsmagnus.github.io/tags/nil/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nillability</title>
-      <link>/tags/nillability/</link>
+      <link>https://nilsmagnus.github.io/tags/nillability/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>/tags/nillability/</guid>
+      <guid>https://nilsmagnus.github.io/tags/nillability/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nils</title>
-      <link>/tags/nils/</link>
+      <link>https://nilsmagnus.github.io/tags/nils/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>/tags/nils/</guid>
+      <guid>https://nilsmagnus.github.io/tags/nils/</guid>
       <description></description>
     </item>
     
     <item>
       <title>null</title>
-      <link>/tags/null/</link>
+      <link>https://nilsmagnus.github.io/tags/null/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>/tags/null/</guid>
+      <guid>https://nilsmagnus.github.io/tags/null/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nullability</title>
-      <link>/tags/nullability/</link>
+      <link>https://nilsmagnus.github.io/tags/nullability/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>/tags/nullability/</guid>
+      <guid>https://nilsmagnus.github.io/tags/nullability/</guid>
       <description></description>
     </item>
     
     <item>
       <title>logging</title>
-      <link>/tags/logging/</link>
+      <link>https://nilsmagnus.github.io/tags/logging/</link>
       <pubDate>Mon, 24 Sep 2018 18:45:58 +0100</pubDate>
       
-      <guid>/tags/logging/</guid>
+      <guid>https://nilsmagnus.github.io/tags/logging/</guid>
       <description></description>
     </item>
     
     <item>
       <title>makefile</title>
-      <link>/tags/makefile/</link>
+      <link>https://nilsmagnus.github.io/tags/makefile/</link>
       <pubDate>Mon, 24 Sep 2018 18:45:58 +0100</pubDate>
       
-      <guid>/tags/makefile/</guid>
+      <guid>https://nilsmagnus.github.io/tags/makefile/</guid>
       <description></description>
     </item>
     
     <item>
       <title>kafka</title>
-      <link>/tags/kafka/</link>
+      <link>https://nilsmagnus.github.io/tags/kafka/</link>
       <pubDate>Sat, 08 Sep 2018 19:09:58 +0100</pubDate>
       
-      <guid>/tags/kafka/</guid>
+      <guid>https://nilsmagnus.github.io/tags/kafka/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pro-tip</title>
-      <link>/tags/pro-tip/</link>
+      <link>https://nilsmagnus.github.io/tags/pro-tip/</link>
       <pubDate>Sat, 08 Sep 2018 19:09:58 +0100</pubDate>
       
-      <guid>/tags/pro-tip/</guid>
+      <guid>https://nilsmagnus.github.io/tags/pro-tip/</guid>
       <description></description>
     </item>
     
     <item>
       <title>async</title>
-      <link>/tags/async/</link>
+      <link>https://nilsmagnus.github.io/tags/async/</link>
       <pubDate>Sun, 25 Feb 2018 14:28:58 +0100</pubDate>
       
-      <guid>/tags/async/</guid>
+      <guid>https://nilsmagnus.github.io/tags/async/</guid>
       <description></description>
     </item>
     
     <item>
       <title>coroutines</title>
-      <link>/tags/coroutines/</link>
+      <link>https://nilsmagnus.github.io/tags/coroutines/</link>
       <pubDate>Sun, 25 Feb 2018 14:28:58 +0100</pubDate>
       
-      <guid>/tags/coroutines/</guid>
+      <guid>https://nilsmagnus.github.io/tags/coroutines/</guid>
       <description></description>
     </item>
     
     <item>
       <title>kotlin</title>
-      <link>/tags/kotlin/</link>
+      <link>https://nilsmagnus.github.io/tags/kotlin/</link>
       <pubDate>Sun, 25 Feb 2018 14:28:58 +0100</pubDate>
       
-      <guid>/tags/kotlin/</guid>
+      <guid>https://nilsmagnus.github.io/tags/kotlin/</guid>
       <description></description>
     </item>
     
     <item>
       <title>grib2</title>
-      <link>/tags/grib2/</link>
+      <link>https://nilsmagnus.github.io/tags/grib2/</link>
       <pubDate>Fri, 23 Feb 2018 11:09:58 +0100</pubDate>
       
-      <guid>/tags/grib2/</guid>
+      <guid>https://nilsmagnus.github.io/tags/grib2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>griblib</title>
-      <link>/tags/griblib/</link>
+      <link>https://nilsmagnus.github.io/tags/griblib/</link>
       <pubDate>Fri, 23 Feb 2018 11:09:58 +0100</pubDate>
       
-      <guid>/tags/griblib/</guid>
+      <guid>https://nilsmagnus.github.io/tags/griblib/</guid>
       <description></description>
     </item>
     
     <item>
       <title>weather</title>
-      <link>/tags/weather/</link>
+      <link>https://nilsmagnus.github.io/tags/weather/</link>
       <pubDate>Fri, 23 Feb 2018 11:09:58 +0100</pubDate>
       
-      <guid>/tags/weather/</guid>
+      <guid>https://nilsmagnus.github.io/tags/weather/</guid>
       <description></description>
     </item>
     
     <item>
       <title>android</title>
-      <link>/tags/android/</link>
+      <link>https://nilsmagnus.github.io/tags/android/</link>
       <pubDate>Tue, 26 Sep 2017 19:56:52 +0100</pubDate>
       
-      <guid>/tags/android/</guid>
+      <guid>https://nilsmagnus.github.io/tags/android/</guid>
       <description></description>
     </item>
     
     <item>
       <title>android-annotations</title>
-      <link>/tags/android-annotations/</link>
+      <link>https://nilsmagnus.github.io/tags/android-annotations/</link>
       <pubDate>Tue, 26 Sep 2017 19:56:52 +0100</pubDate>
       
-      <guid>/tags/android-annotations/</guid>
+      <guid>https://nilsmagnus.github.io/tags/android-annotations/</guid>
       <description></description>
     </item>
     
     <item>
       <title>inference</title>
-      <link>/tags/inference/</link>
+      <link>https://nilsmagnus.github.io/tags/inference/</link>
       <pubDate>Mon, 03 Jul 2017 15:45:58 +0100</pubDate>
       
-      <guid>/tags/inference/</guid>
+      <guid>https://nilsmagnus.github.io/tags/inference/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tensorflow</title>
-      <link>/tags/tensorflow/</link>
+      <link>https://nilsmagnus.github.io/tags/tensorflow/</link>
       <pubDate>Mon, 03 Jul 2017 15:45:58 +0100</pubDate>
       
-      <guid>/tags/tensorflow/</guid>
+      <guid>https://nilsmagnus.github.io/tags/tensorflow/</guid>
       <description></description>
     </item>
     
     <item>
       <title>json</title>
-      <link>/tags/json/</link>
+      <link>https://nilsmagnus.github.io/tags/json/</link>
       <pubDate>Sun, 09 Apr 2017 21:44:01 +0100</pubDate>
       
-      <guid>/tags/json/</guid>
+      <guid>https://nilsmagnus.github.io/tags/json/</guid>
       <description></description>
     </item>
     
     <item>
       <title>proto</title>
-      <link>/tags/proto/</link>
+      <link>https://nilsmagnus.github.io/tags/proto/</link>
       <pubDate>Sun, 09 Apr 2017 21:44:01 +0100</pubDate>
       
-      <guid>/tags/proto/</guid>
+      <guid>https://nilsmagnus.github.io/tags/proto/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Hello world</title>
-      <link>/tags/hello-world/</link>
+      <link>https://nilsmagnus.github.io/tags/hello-world/</link>
       <pubDate>Tue, 14 Mar 2017 19:45:58 +0100</pubDate>
       
-      <guid>/tags/hello-world/</guid>
+      <guid>https://nilsmagnus.github.io/tags/hello-world/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Hugo</title>
-      <link>/tags/hugo/</link>
+      <link>https://nilsmagnus.github.io/tags/hugo/</link>
       <pubDate>Tue, 14 Mar 2017 19:45:58 +0100</pubDate>
       
-      <guid>/tags/hugo/</guid>
+      <guid>https://nilsmagnus.github.io/tags/hugo/</guid>
       <description></description>
     </item>
     
