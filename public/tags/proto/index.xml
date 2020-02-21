@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>proto on Random codewalks</title>
-    <link>http://localhost:8080/tags/proto/</link>
+    <link>/tags/proto/</link>
     <description>Recent content in proto on Random codewalks</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 09 Apr 2017 21:44:01 +0100</lastBuildDate>
     
-	<atom:link href="http://localhost:8080/tags/proto/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/proto/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Comparing sizes of protobuf vs json</title>
-      <link>http://localhost:8080/post/proto-json-sizes/</link>
+      <link>/post/proto-json-sizes/</link>
       <pubDate>Sun, 09 Apr 2017 21:44:01 +0100</pubDate>
       
-      <guid>http://localhost:8080/post/proto-json-sizes/</guid>
+      <guid>/post/proto-json-sizes/</guid>
       <description>update: now comparing gzipped json vs gzipped protobuf
 Google Protobuffer is a binary format claiming to much more compact than json and other text-formats, but just how much less space does it require? Does it hold for large arrays of data?
 In this blogpost I will compare the sizes of the two formats.

@@ -40,7 +40,6 @@ Download the YoloV3 and run the model
 	./darknet detector demo cfg/coco.data cfg/yolov3.cfg yolov3.weights
 	
 
-Voila
+Voila, here is a demo on vimeo:
 
-<iframe src="https://player.vimeo.com/video/392921272" width="640" height="497" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-	
+[![Demo of yolo](https://i.vimeocdn.com/video/858208576_130x73.jpg)](https://vimeo.com/392921272 "Yolo on jetson nano - Click to Watch!")	

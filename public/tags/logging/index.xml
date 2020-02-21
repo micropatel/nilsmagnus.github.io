@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>logging on Random codewalks</title>
-    <link>http://localhost:8080/tags/logging/</link>
+    <link>/tags/logging/</link>
     <description>Recent content in logging on Random codewalks</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 24 Sep 2018 18:45:58 +0100</lastBuildDate>
     
-	<atom:link href="http://localhost:8080/tags/logging/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/logging/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Write go like a pro</title>
-      <link>http://localhost:8080/post/write-go-like-a-pro/</link>
+      <link>/post/write-go-like-a-pro/</link>
       <pubDate>Mon, 24 Sep 2018 18:45:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/post/write-go-like-a-pro/</guid>
+      <guid>/post/write-go-like-a-pro/</guid>
       <description>So you enjoy go and are ready to take your go-application to production standards. Here is a listing of some tricks on how to get your application production-ready. Not all these advices will apply to all kinds of applications, pick and choose whatever makes sense to your application.
 Use Make to build and test your app Heavy-weight applications written in heavyweigh JVM languages has gradle/maven/ant/sbt/leiningen. Javascriptish languages has npm/yarn/hotoftheday. For go, you should lean on a rock-solid lightweight tool like Make, to build and test your app.</description>
     </item>

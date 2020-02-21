@@ -2,273 +2,273 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Random codewalks</title>
-    <link>http://localhost:8080/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Random codewalks</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 21 Jan 2020 07:44:01 +0100</lastBuildDate>
     
-	<atom:link href="http://localhost:8080/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>cuda</title>
-      <link>http://localhost:8080/tags/cuda/</link>
+      <link>/tags/cuda/</link>
       <pubDate>Tue, 21 Jan 2020 07:44:01 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/cuda/</guid>
+      <guid>/tags/cuda/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jetson-nano</title>
-      <link>http://localhost:8080/tags/jetson-nano/</link>
+      <link>/tags/jetson-nano/</link>
       <pubDate>Tue, 21 Jan 2020 07:44:01 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/jetson-nano/</guid>
+      <guid>/tags/jetson-nano/</guid>
       <description></description>
     </item>
     
     <item>
       <title>opencv</title>
-      <link>http://localhost:8080/tags/opencv/</link>
+      <link>/tags/opencv/</link>
       <pubDate>Tue, 21 Jan 2020 07:44:01 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/opencv/</guid>
+      <guid>/tags/opencv/</guid>
       <description></description>
     </item>
     
     <item>
       <title>yolo</title>
-      <link>http://localhost:8080/tags/yolo/</link>
+      <link>/tags/yolo/</link>
       <pubDate>Tue, 21 Jan 2020 07:44:01 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/yolo/</guid>
+      <guid>/tags/yolo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>basics</title>
-      <link>http://localhost:8080/tags/basics/</link>
+      <link>/tags/basics/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/basics/</guid>
+      <guid>/tags/basics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>go</title>
-      <link>http://localhost:8080/tags/go/</link>
+      <link>/tags/go/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/go/</guid>
+      <guid>/tags/go/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nil</title>
-      <link>http://localhost:8080/tags/nil/</link>
+      <link>/tags/nil/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/nil/</guid>
+      <guid>/tags/nil/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nillability</title>
-      <link>http://localhost:8080/tags/nillability/</link>
+      <link>/tags/nillability/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/nillability/</guid>
+      <guid>/tags/nillability/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nils</title>
-      <link>http://localhost:8080/tags/nils/</link>
+      <link>/tags/nils/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/nils/</guid>
+      <guid>/tags/nils/</guid>
       <description></description>
     </item>
     
     <item>
       <title>null</title>
-      <link>http://localhost:8080/tags/null/</link>
+      <link>/tags/null/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/null/</guid>
+      <guid>/tags/null/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nullability</title>
-      <link>http://localhost:8080/tags/nullability/</link>
+      <link>/tags/nullability/</link>
       <pubDate>Tue, 06 Nov 2018 20:43:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/nullability/</guid>
+      <guid>/tags/nullability/</guid>
       <description></description>
     </item>
     
     <item>
       <title>logging</title>
-      <link>http://localhost:8080/tags/logging/</link>
+      <link>/tags/logging/</link>
       <pubDate>Mon, 24 Sep 2018 18:45:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/logging/</guid>
+      <guid>/tags/logging/</guid>
       <description></description>
     </item>
     
     <item>
       <title>makefile</title>
-      <link>http://localhost:8080/tags/makefile/</link>
+      <link>/tags/makefile/</link>
       <pubDate>Mon, 24 Sep 2018 18:45:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/makefile/</guid>
+      <guid>/tags/makefile/</guid>
       <description></description>
     </item>
     
     <item>
       <title>kafka</title>
-      <link>http://localhost:8080/tags/kafka/</link>
+      <link>/tags/kafka/</link>
       <pubDate>Sat, 08 Sep 2018 19:09:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/kafka/</guid>
+      <guid>/tags/kafka/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pro-tip</title>
-      <link>http://localhost:8080/tags/pro-tip/</link>
+      <link>/tags/pro-tip/</link>
       <pubDate>Sat, 08 Sep 2018 19:09:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/pro-tip/</guid>
+      <guid>/tags/pro-tip/</guid>
       <description></description>
     </item>
     
     <item>
       <title>async</title>
-      <link>http://localhost:8080/tags/async/</link>
+      <link>/tags/async/</link>
       <pubDate>Sun, 25 Feb 2018 14:28:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/async/</guid>
+      <guid>/tags/async/</guid>
       <description></description>
     </item>
     
     <item>
       <title>coroutines</title>
-      <link>http://localhost:8080/tags/coroutines/</link>
+      <link>/tags/coroutines/</link>
       <pubDate>Sun, 25 Feb 2018 14:28:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/coroutines/</guid>
+      <guid>/tags/coroutines/</guid>
       <description></description>
     </item>
     
     <item>
       <title>kotlin</title>
-      <link>http://localhost:8080/tags/kotlin/</link>
+      <link>/tags/kotlin/</link>
       <pubDate>Sun, 25 Feb 2018 14:28:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/kotlin/</guid>
+      <guid>/tags/kotlin/</guid>
       <description></description>
     </item>
     
     <item>
       <title>grib2</title>
-      <link>http://localhost:8080/tags/grib2/</link>
+      <link>/tags/grib2/</link>
       <pubDate>Fri, 23 Feb 2018 11:09:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/grib2/</guid>
+      <guid>/tags/grib2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>griblib</title>
-      <link>http://localhost:8080/tags/griblib/</link>
+      <link>/tags/griblib/</link>
       <pubDate>Fri, 23 Feb 2018 11:09:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/griblib/</guid>
+      <guid>/tags/griblib/</guid>
       <description></description>
     </item>
     
     <item>
       <title>weather</title>
-      <link>http://localhost:8080/tags/weather/</link>
+      <link>/tags/weather/</link>
       <pubDate>Fri, 23 Feb 2018 11:09:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/weather/</guid>
+      <guid>/tags/weather/</guid>
       <description></description>
     </item>
     
     <item>
       <title>android</title>
-      <link>http://localhost:8080/tags/android/</link>
+      <link>/tags/android/</link>
       <pubDate>Tue, 26 Sep 2017 19:56:52 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/android/</guid>
+      <guid>/tags/android/</guid>
       <description></description>
     </item>
     
     <item>
       <title>android-annotations</title>
-      <link>http://localhost:8080/tags/android-annotations/</link>
+      <link>/tags/android-annotations/</link>
       <pubDate>Tue, 26 Sep 2017 19:56:52 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/android-annotations/</guid>
+      <guid>/tags/android-annotations/</guid>
       <description></description>
     </item>
     
     <item>
       <title>inference</title>
-      <link>http://localhost:8080/tags/inference/</link>
+      <link>/tags/inference/</link>
       <pubDate>Mon, 03 Jul 2017 15:45:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/inference/</guid>
+      <guid>/tags/inference/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tensorflow</title>
-      <link>http://localhost:8080/tags/tensorflow/</link>
+      <link>/tags/tensorflow/</link>
       <pubDate>Mon, 03 Jul 2017 15:45:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/tensorflow/</guid>
+      <guid>/tags/tensorflow/</guid>
       <description></description>
     </item>
     
     <item>
       <title>json</title>
-      <link>http://localhost:8080/tags/json/</link>
+      <link>/tags/json/</link>
       <pubDate>Sun, 09 Apr 2017 21:44:01 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/json/</guid>
+      <guid>/tags/json/</guid>
       <description></description>
     </item>
     
     <item>
       <title>proto</title>
-      <link>http://localhost:8080/tags/proto/</link>
+      <link>/tags/proto/</link>
       <pubDate>Sun, 09 Apr 2017 21:44:01 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/proto/</guid>
+      <guid>/tags/proto/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Hello world</title>
-      <link>http://localhost:8080/tags/hello-world/</link>
+      <link>/tags/hello-world/</link>
       <pubDate>Tue, 14 Mar 2017 19:45:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/hello-world/</guid>
+      <guid>/tags/hello-world/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Hugo</title>
-      <link>http://localhost:8080/tags/hugo/</link>
+      <link>/tags/hugo/</link>
       <pubDate>Tue, 14 Mar 2017 19:45:58 +0100</pubDate>
       
-      <guid>http://localhost:8080/tags/hugo/</guid>
+      <guid>/tags/hugo/</guid>
       <description></description>
     </item>
     
