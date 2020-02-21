@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hello world on Random codewalks</title>
+    <link>http://localhost:8080/tags/hello-world/</link>
+    <description>Recent content in Hello world on Random codewalks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 14 Mar 2017 19:45:58 +0100</lastBuildDate>
+    
+	<atom:link href="http://localhost:8080/tags/hello-world/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hello hugo on github.io</title>
+      <link>http://localhost:8080/post/hello-hugo/</link>
+      <pubDate>Tue, 14 Mar 2017 19:45:58 +0100</pubDate>
+      
+      <guid>http://localhost:8080/post/hello-hugo/</guid>
+      <description>This blog is built using hugo. So my first blogpost is dedicated to how I set it up on github.
+installation install the bleeding edge hugo version by running
+go get -v github.com/spf13/hugo  verify the installation by typing
+hugo -h  this should display the help screen for hugo
+create hello world create blog hosted on github.io On github, create a repository &amp;quot;&amp;lt;yourusername&amp;gt;.github.io&amp;rdquo;, e.g. &amp;ldquo;nilsmagnus.github.io&amp;rdquo; .
+Clone the repo and cd into the directory.</description>
+    </item>
+    
+  </channel>
+</rss>

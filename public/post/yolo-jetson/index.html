@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Using YOLO models on nvidia jetson | Random codewalks</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.65.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://localhost:8080/css/index.css">
+<link rel="stylesheet" href="http://localhost:8080/css/classes.css">
+<link rel="canonical" href="http://localhost:8080/post/yolo-jetson/">
+<link rel="alternate" type="application/rss+xml" href="" title="Random codewalks">
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://localhost:8080/">Random codewalks</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Using YOLO models on nvidia jetson</h1>
+    <time datetime="2020-01-21T07:44:01&#43;01:00">January 21, 2020</time>
+  </header>
+  <p><a href="https://pjreddie.com/darknet/yolo/">YOLO</a> is a highly optimized machine-learning model to recognize objects in videos and images. Running these on your jetson nano is a great test of your board and a bit of fun. To use these awesome models you need to install darknet, the program that runs interference on a video stream from your camera.</p>
+<p>What you need:</p>
+<ul>
+<li>Jetson Nano Developer Kit with Jetson Nano Developer Kit SD Card image installed</li>
+<li>An USB web-camera</li>
+</ul>
+<p>Since we have a CUDA gpu on the jetson we should modify the Makefile to enable CUDA and make sure that nvcc is on <code>$PATH</code>. We also want to use <code>OpenCV</code> to make use of our webcam later on.</p>
+<pre><code># cuda/bin is not on PATH by default, add it to .bashrc
+echo &quot;export PATH=$PATH:/usr/local/cuda/bin&quot; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</code></pre>
+<p>Now get the source for darknet</p>
+<pre><code>git clone https://github.com/AlexeyAB/darknet
+</code></pre>
+<p>Now edit the <code>Makefile</code>, changing <code>GPU=0</code> to <code>GPU=1</code>, <code>CUDNN=0</code> to <code>CUDNN=1</code> and <code>OPENCV=0</code> to <code>OPENCV=1</code> and build</p>
+<pre><code>cd darknet		
+make
+</code></pre>
+<p>Download the YoloV3 and run the model</p>
+<pre><code># Download the pretrained yolo3 model
+wget https://pjreddie.com/media/files/yolov3.weights
+
+# run the model 
+./darknet detector demo cfg/coco.data cfg/yolov3.cfg yolov3.weights
+</code></pre>
+<p>Voila</p>
+<!-- raw HTML omitted -->
+
+</article>
+
+
+
+</body>
+
+</html>

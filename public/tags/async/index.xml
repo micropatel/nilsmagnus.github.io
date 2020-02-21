@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>async on Random codewalks</title>
+    <link>http://localhost:8080/tags/async/</link>
+    <description>Recent content in async on Random codewalks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 25 Feb 2018 14:28:58 +0100</lastBuildDate>
+    
+	<atom:link href="http://localhost:8080/tags/async/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Concurrency made easy(easier) with coroutines</title>
+      <link>http://localhost:8080/post/coroutines-basics/</link>
+      <pubDate>Sun, 25 Feb 2018 14:28:58 +0100</pubDate>
+      
+      <guid>http://localhost:8080/post/coroutines-basics/</guid>
+      <description>Coroutines can be looked at as lightweight threads that enables us to write simple concurrent code in kotlin. It enables us to execute concurrent code without much effort and write async code in a sequential style, hiding the noise introduced by explicitly handling async events and callbacks. The result is readable, high-performant code.
+Instead of the dealing with callbacks and synchronisation, the developer can focus on real, value-adding code and let the runtime handle callbacks transparently.</description>
+    </item>
+    
+  </channel>
+</rss>

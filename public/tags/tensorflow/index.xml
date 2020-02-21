@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tensorflow on Random codewalks</title>
+    <link>http://localhost:8080/tags/tensorflow/</link>
+    <description>Recent content in tensorflow on Random codewalks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 03 Jul 2017 15:45:58 +0100</lastBuildDate>
+    
+	<atom:link href="http://localhost:8080/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using your tensorflow model with go</title>
+      <link>http://localhost:8080/post/go-tensorflow/</link>
+      <pubDate>Mon, 03 Jul 2017 15:45:58 +0100</pubDate>
+      
+      <guid>http://localhost:8080/post/go-tensorflow/</guid>
+      <description>This post will serve as a simple end-to-end example of how to use your own tensorflow-model to do inference in your go-application. You will need to train your own model with tensorflow in order to make it work properly.
+If you are doing inference in java (or any other language) the blogpost will still be useful since the principles are the same for languages with bindings to tensorflow.
+TLDR; Name your tensors and operations in the tensorflow graph before exporting the model.</description>
+    </item>
+    
+  </channel>
+</rss>

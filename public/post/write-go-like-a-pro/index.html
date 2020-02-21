@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Write go like a pro | Random codewalks</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.65.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://localhost:8080/css/index.css">
+<link rel="stylesheet" href="http://localhost:8080/css/classes.css">
+<link rel="canonical" href="http://localhost:8080/post/write-go-like-a-pro/">
+<link rel="alternate" type="application/rss+xml" href="" title="Random codewalks">
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://localhost:8080/">Random codewalks</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Write go like a pro</h1>
+    <time datetime="2018-09-24T18:45:58&#43;01:00">September 24, 2018</time>
+  </header>
+  <p>So you enjoy go and are ready to take your go-application to production standards. Here is a listing of some tricks on how to get your application production-ready. Not all these advices will apply to all kinds of applications, pick and choose whatever makes sense to your application.</p>
+<h1 id="use-make-to-build-and-test-your-app">Use Make to build and test your app</h1>
+<p>Heavy-weight applications written in heavyweigh JVM languages has gradle/maven/ant/sbt/leiningen. Javascriptish languages has npm/yarn/hotoftheday. For go, you should lean on a rock-solid lightweight tool like <code>Make</code>, to build and test your app.</p>
+<p>To have stable applications and enable reproducible builds the go-toolchain might fall short. If you are lucky your app still builds with the <code>go build</code> command, but you might want to run your tests with additional flags and clean up after building and testing.</p>
+<p><code>Make</code> is the perfect tool for this task. A simple <code>Makefile</code> can be only a couple of lines and easy to read. <code>Make</code> has support for incremental builds, so when your build-process grows, make is there to support you.</p>
+<p>Start out with a simple makefile and let it grow to fit your needs. Your makefile should at least have the targets</p>
+<ul>
+<li><em>build</em> - compile your application into a production-ready binary. Build should always depend on the test-target to make sure we ship a sane binary.</li>
+<li><em>test</em> - run all your tests</li>
+<li><em>clean</em> - clean up binaries produced by the build-target and output from your tests</li>
+<li>some form of <em>lint</em>-check to check that your code conforms to your chosen standards. It is recommended to at least conform to golang formatting standards.</li>
+</ul>
+<p><em>Semi-advanced Makefile that considers vendor-folder, formatting, lint and strict checks</em> :</p>
+<pre><code> SHELL := /bin/bash
+ 
+ # The name of the executable (default is current directory name)
+ TARGET := $(shell echo $${PWD\#\#*/})
+ .DEFAULT_GOAL: $(TARGET)
+ 
+ # These will be provided to the target
+ VERSION := 1.0.0
+ BUILD := `git rev-parse HEAD`
+ 
+ # Use linker flags to provide version/build settings to the target
+ LDFLAGS=-ldflags &quot;-X=main.Version=$(VERSION) -X=main.Build=$(BUILD)&quot;
+ 
+ # go source files, ignore vendor directory
+ SRC = $(shell find . -type f -name '*.go' -not -path &quot;./vendor/*&quot;)
+ 
+ .PHONY: all build clean install uninstall fmt simplify check run
+ 
+ all: test-all install
+ 
+ $(TARGET): $(SRC)
+    go build $(LDFLAGS) -o $(TARGET)
+ 
+ build: test $(TARGET)
+    @true
+ 
+ clean:
+    rm -f $(TARGET)
+    rm *.png
+ 
+ fmt:
+    gofmt -l -w $(SRC)
+ 
+ test:
+    go test -short ./...
+ 
+ lint:
+    go vet ./...
+ 
+ test-all: lint test
+    go test -race ./...
+ 
+ strict-check:
+    @test -z $(shell gofmt -l main.go | tee /dev/stderr) || echo &quot;[WARN] Fix formatting issues with 'make fmt'&quot;
+    @for d in $$(go list ./... | grep -v /vendor/); do golint $${d}; done
+    @go tool vet ${SRC}
+ 
+ run: test-all install
+    @$(TARGET) 
+</code></pre>
+<p>This Makefile supports several of the mentioned tasks. It is taken from one of my projects on github, <a href="https://github.com/nilsmagnus/grib">grib</a>.</p>
+<h1 id="control-your-dependencies">Control your dependencies</h1>
+<p>Using <code>go get</code> to install libraries is convenient, but that alone is not a good long-term solution. Versions of your dependencies change and in worst case will break your build on updates. To have stable build over time you do need a tool to manage your dependencies and versioning of your dependencies. Up until recently I would have recommended <a href="https://golang.github.io/dep/">dep</a> to manage your dependencies, but after Brian Ketelsen introduced <a href="https://github.com/golang/vgo">vgo</a>, I am not sure which one of the two to recommend. Both supports semantic versioning and revision versioning of your dependencies.</p>
+<ul>
+<li><code>dep</code> is probably more mature and better tested at the moment.</li>
+<li><code>vgo</code> is probably the future choice of the golang community.</li>
+</ul>
+<p>When using <code>dep</code>, I would seriously consider adding your vendor-folder to your VCS to speed up builds and be independent of external source-control-providers(github/gitlab/bitbucket etc.) when building on new machines or in a CI-environment.</p>
+<h1 id="build-your-projects-on-a-ci-server">Build your projects on a CI-server</h1>
+<p>This is probably obvious, but I include it anyway: make sure you build your code on a ci-server. Building on your machine is not sufficient, since your machine might have some special environment variation. Building on a ci-server reveals any custom environment requirements and will allow new programmers adapt your code quickly.</p>
+<p>If you dont have a ci-server yourself, check out the free ci-pipelines at <a href="https://gitlab.com/">gitlab.com</a> or other providers.</p>
+<h1 id="test-continuously-write-testable-code">Test continuously, write testable code</h1>
+<h3 id="run-tests-on-save">Run tests on save</h3>
+<p>One of the things we love with go is the blazingly fast compiler and fast execution. So why not make use of it and run the tests every time you save your code? Vscode, idea and other editors has support for save-actions. Add a save-action for running your tests with coverage and see how it fits you. Try to only run unit-tests this way, since integration-tests with databases and external services might take some time to run.</p>
+<h3 id="testing-libraries">Testing libraries</h3>
+<p>The built in testing-framework in golang should cover your most needs for testing, so there is no need to include testing-libraries. But should you need something extra, other libraries can make your tests a bit more readable and specialized. Popular libraries include testify and httpexpect.</p>
+<ul>
+<li><a href="https://golang.org/pkg/testing/">Built in testing package</a></li>
+<li><a href="https://github.com/stretchr/testify">testify</a></li>
+<li><a href="https://github.com/gavv/httpexpect">httpexpect</a></li>
+</ul>
+<h3 id="use-interfaces-to-enable-cleaner-tests">Use interfaces to enable cleaner tests</h3>
+<p>If you use interfaces when programming, your testing-life becomes way lot easier. For instance, instead of passing a io.File as an argument, you might find that you can pass io.Reader or io.Writer in your implementation. This will allow writing a lot simpler tests. Nathan LeClaire wrote a nice post on testing with interfaces <a href="https://nathanleclaire.com/blog/2015/10/10/interfaces-and-composition-for-effective-unit-testing-in-golang/">here</a> that you might find useful.</p>
+<h1 id="error-handling---dont-panic">Error handling - Don&rsquo;t Panic.</h1>
+<p>Don&rsquo;t panic. You should never use panic in your production code if you want to keep your application running. It will result in unpredictable behaviour and probably crash your application. Instead, handle your errors gracefully. You could of course <a href="https://blog.golang.org/defer-panic-and-recover">recover from a panic</a>, but it is messy and not readable. Instead, always check error-returns and handle them gracefully.</p>
+<p><em>Don&rsquo;t panic</em> is one of the <a href="https://go-proverbs.github.io/">golang proverbs</a> for a reason.</p>
+<h1 id="logging">Logging</h1>
+<p>The built in logging library is not sufficient for a production ready application. It has little support for log-levels and does not output logger-name and timestamp by default. There are some seriously good logging-libraries for golang, so you can pick and choose the best for you.</p>
+<p>I recommend using über&rsquo;s library <a href="https://github.com/uber-go/zap">zap</a>  or <a href="https://github.com/sirupsen/logrus">logrus</a>. These are both good loggers that will serve you well.</p>
+<p>Zap is a high-performant logger &ldquo;4-10x&rdquo; faster than other loggers, and provides a structured logger.</p>
+<p><em>Sample output from zap sugared logger</em>:</p>
+<pre><code>2018-09-20T10:21:56.574+0200	INFO	ftplistener/main.go:93	hit ftpFolder 	{&quot;foldername&quot;: &quot;gfs.2018092000&quot;}
+2018-09-20T10:22:00.383+0200	INFO	ftplistener/main.go:93	hit ftpFolder 	{&quot;foldername&quot;: &quot;gfs.2018091800&quot;}
+2018-09-20T10:22:00.388+0200	INFO	ftplistener/main.go:148	Downloading 	{&quot;file&quot;: &quot;/media/larsgard/4TBWEATHER/gfs.2018/gfs.2018092000/gfs.t00z.pgrb2.1p00.f000&quot;}
+2018-09-20T10:22:00.388+0200	INFO	ftplistener/main.go:148	Downloading 	{&quot;file&quot;: &quot;/media/larsgard/4TBWEATHER/gfs.2018/gfs.2018092000/gfs.t00z.pgrb2.1p00.f384&quot;}
+2018-09-20T10:22:00.389+0200	INFO	ftplistener/main.go:148	Downloading 	{&quot;file&quot;: &quot;/media/larsgard/4TBWEATHER/gfs.2018/gfs.2018092000/gfs.t00z.pgrb2.1p00.f063&quot;}
+</code></pre>
+<h1 id="metrics">Metrics</h1>
+<p>Exposing basic metrics from a golang-web-app is straight forward when using the built-in <code>expvar</code> package. This package allows you to add metrics of your choice. The metrics are kept in-memory so you probably want an scraper to read the metrics from a http.Handler. Have a look at the <a href="https://golang.org/pkg/expvar/">expvar</a> package documentation.</p>
+<ul>
+<li><a href="https://docs.datadoghq.com/integrations/go_expvar/">Datadog</a> uses the expvar feature to monitor your app.</li>
+<li>There are available libraries for <a href="https://github.com/prometheus/client_golang">prometheus</a> if you are using prometheus for other applications already.</li>
+</ul>
+<p><em>Using the expvar-package for custom metrics:</em></p>
+<pre><code>import &quot;expvar&quot; 
+
+var (
+  requestConter = *expvar.Int
+)
+
+func init() {
+  requestConter = expvar.NewInt(&quot;requests&quot;)
+}
+
+func handleRequest(){
+// Adds an integer value to expvar.Int counter
+    requestConter.Add(1)
+}
+</code></pre>
+<h1 id="read-config-from-flags-and-environment">Read config from flags AND environment</h1>
+<p>You probably need to config your application in some way. Ports, urls, usernames and passwords are a good idea to read from configs.</p>
+<p>Config parameters should be possible to set with either env-variables, with the <a href="https://golang.org/pkg/flag/">flag</a> package or , more advanced, config-files.</p>
+<ul>
+<li>Lars Wiegman&rsquo;s library, <a href="https://github.com/namsral/flag">namsral/flag</a>, reads config from both environment, cli-flags and config files.</li>
+<li>Kelsey Hightower&rsquo;s popular library <a href="https://github.com/kelseyhightower/envconfig">envconfig</a> is a neat library to read config from environment to structs.</li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>

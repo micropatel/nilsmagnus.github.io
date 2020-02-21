@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Nillability and zero-values in go | Random codewalks</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.65.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://localhost:8080/css/index.css">
+<link rel="stylesheet" href="http://localhost:8080/css/classes.css">
+<link rel="canonical" href="http://localhost:8080/post/nillability-in-go/">
+<link rel="alternate" type="application/rss+xml" href="" title="Random codewalks">
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://localhost:8080/">Random codewalks</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Nillability and zero-values in go</h1>
+    <time datetime="2018-11-06T20:43:58&#43;01:00">November 06, 2018</time>
+  </header>
+  <p>Beeing a long time java-developer, I am obsessed with null-checking and handling null values.
+In golang, the story is somewhat different. In this post I will try to describe how <code>nil</code> and <code>zero-values</code>
+are used in golang.</p>
+<h1 id="non-nillable-and-nillable-types">non-nillable and nillable types</h1>
+<p>Types can be either nillable or non-nillable in go. The non-nillable types can never be nil
+and will never cause you a <code>nil-panic</code> (the java equivalent of nullpointerexception) But when
+are dealing with the nillable types, we have to take a bit of caution although not as
+much as in java(or other languages with nillable types).</p>
+<h2 id="the-non-nillables-basic-types">The non-nillables basic types</h2>
+<p>In go, the basic types are not nillable. A statement like</p>
+<pre><code>var a int = nil
+</code></pre>
+<p>does not compile because an <code>int</code> can never be nil. The default value of an unassigned <code>int</code> type is 0.
+Running the statement</p>
+<pre><code>var a int // default value of int, cannot be nil
+fmt.Println(a) // 0
+</code></pre>
+<p>will output the default value of <code>int</code>; &ldquo;<code>0</code>&rdquo;. We call this the zero-value of the type.</p>
+<p>The same way <code>int</code> defaults to 0, these are the other basic types with their zero-values:</p>
+<table>
+<thead>
+<tr>
+<th>Types</th>
+<th>Zero value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int, int8, int16, int32, int64</td>
+<td>0</td>
+</tr>
+<tr>
+<td>uint, uint8, uint16, uint32, uint64</td>
+<td>0</td>
+</tr>
+<tr>
+<td>uintptr</td>
+<td>0</td>
+</tr>
+<tr>
+<td>float32, float64</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>0</td>
+</tr>
+<tr>
+<td>rune</td>
+<td>0</td>
+</tr>
+<tr>
+<td>string</td>
+<td>&quot;&rdquo; (empty string)</td>
+</tr>
+<tr>
+<td>complex64, complex128</td>
+<td>(0,0i)</td>
+</tr>
+<tr>
+<td>arrays of non-nillable types</td>
+<td>array of zero-values</td>
+</tr>
+<tr>
+<td>arrays of nillable types</td>
+<td>array of nil-values</td>
+</tr>
+</tbody>
+</table>
+<h2 id="non-nillable-structs">Non-nillable structs</h2>
+<p>Composed <code>struct</code> types are also non-nillable, and the default value of a struct will contain
+the default value for all its fields.</p>
+<p>Consider the code with the struct type Person,</p>
+<pre><code>type Person struct {
+    Name string
+    Age  int
+}
+var p Person // zero-value of type Person
+
+fmt.Printf(&quot;[%#v]\n&quot;, p)
+</code></pre>
+<p>will print  <code>[main.Person{Name:&quot;&quot;, Age:0}]</code> when run in main. You can test this <a href="https://play.golang.org/p/DEVSf5s5OVh">on this snippet</a> on The Go Playground.</p>
+<h2 id="the-nillable-types">The nillable types</h2>
+<p>More advanced types are nillable and <em>can</em> cause panic if they are not initialized.</p>
+<p>The nillable types are <em>functions, channels, slices, maps, interface-types and pointers</em>.</p>
+<p>However, nil-slices and nil-maps can still be used and does not have to be initialized before we start using them.</p>
+<h2 id="nil-maps">nil-maps</h2>
+<p>Maps will always return the zero-value of the value if it is nil, the same behaviour as if the key of the map is non-existent.
+The code</p>
+<pre><code>var p map[int]string // nil map
+fmt.Printf(&quot; %#v  length %d \n&quot;,  p[99], len(p))
+</code></pre>
+<p>simply prints <code>&quot;&quot; length 0</code>, the extracted value for key 99 is the zero value of <code>string</code>.</p>
+<p>Assigning values to a nil-map, will however cause panic:</p>
+<pre><code>var p map[string]int	// nil map 
+p[&quot;nils&quot;] = 19 // panic: assignment to entry in nil map
+</code></pre>
+<h2 id="nil-slices">nil-slices</h2>
+<p>Refering to out-of-bounds on slices <em>will</em> cause panic, but operations like <code>len()</code> and <code>cap()</code> will not panic. They will simply return <code>0</code>, since both capacity and length is zero
+for an uninitialized slice. Append can be safely called on the nil-slice. So the code</p>
+<pre><code>var p []string // nil slice
+fmt.Printf(&quot;uninitialized -&gt; %d, %d\n&quot;,  len(p), cap(p))
+p1 := append(p, &quot;nils&quot;) // create a new slice p1 from p
+fmt.Printf(&quot;after append  -&gt; %d, %d %#v\n&quot;,  len(p1), cap(p1), p1)
+</code></pre>
+<p>Will print</p>
+<pre><code>uninitialized -&gt; 0, 0
+after append  -&gt; 1, 1 []string{&quot;nils&quot;}
+</code></pre>
+<p>Play with this example on <a href="https://play.golang.org/p/_NQNqQniPcx">the playground</a>.</p>
+<h2 id="nillable-pointers-functions-and-interface-types-can-cause-panic">nillable pointers, functions and interface-types can cause panic</h2>
+<p>Pointers and interface-types are however nillable. Whenever dealing with these types, we have to consider if
+they are nil or not to avoid panics. These code-snippets for instance, will cause a panic:</p>
+<pre><code>var p *int // pointer to an int
+*p++ // panic: runtime error: invalid memory address or nil pointer dereference
+// p is an address to nothing, and therefore is nil
+</code></pre>
+<p>and</p>
+<pre><code>var p error // nil-value of type error
+error.Error() // panic: runtime error: invalid memory address or nil pointer dereference
+</code></pre>
+<p>and</p>
+<pre><code>var f func(string) // nil-function
+f(&quot;oh oh&quot;) // panic: runtime error: invalid memory address or nil pointer dereference
+</code></pre>
+<h2 id="nil-channels-blocks-forever">nil channels blocks forever</h2>
+<p>Trying to read from a nil-channel or write to a nil-channel will block forever. Closing a nil-channel
+will cause panic.</p>
+<h1 id="wrapup">Wrapup</h1>
+<p><code>nil</code> is well defined in go. Knowing what can be nil and how to handle nil values of the different
+types increases your understanding of whats happening and can help you write better go-code.</p>
+
+</article>
+
+
+
+</body>
+
+</html>

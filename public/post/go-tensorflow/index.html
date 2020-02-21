@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Using your tensorflow model with go | Random codewalks</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.65.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://localhost:8080/css/index.css">
+<link rel="stylesheet" href="http://localhost:8080/css/classes.css">
+<link rel="canonical" href="http://localhost:8080/post/go-tensorflow/">
+<link rel="alternate" type="application/rss+xml" href="" title="Random codewalks">
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://localhost:8080/">Random codewalks</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Using your tensorflow model with go</h1>
+    <time datetime="2017-07-03T15:45:58&#43;01:00">July 03, 2017</time>
+  </header>
+  <p>This post will serve as a simple end-to-end example of how to
+use your own tensorflow-model to do inference in your go-application.
+You will need to train your own model with tensorflow in order to make it work properly.</p>
+<p>If you are doing inference in java (or any other language)
+the blogpost will still be useful since the principles are the
+same for languages with bindings to tensorflow.</p>
+<h2 id="tldr">TLDR;</h2>
+<p>Name your tensors and operations in the tensorflow graph before exporting the model.
+Use the same names to address input and inference-operations when you want to use the model in go(or any other language).
+Be careful to match the dimensions of your input and output when using the model.</p>
+<h2 id="motivation">Motivation</h2>
+<p>The tensorflow library is written in c++, but python is the most used language to use it. But since I am a
+go-developer I want to be able to use my tensorflow models in-process
+to do inference. This way I can use inference as a part of my program or expose it as a
+rest-service if needed and hopefully save some milliseconds over python when doing inference.</p>
+<h2 id="pre-reqs">Pre reqs</h2>
+<p>To execute the code in this example you will need to</p>
+<ul>
+<li>have tensorflow installed</li>
+<li>have some version of go installed(I currently use 1.8)</li>
+<li>some familiarity with tensorflows compute-graph if you run into problems</li>
+</ul>
+<h2 id="install-go-bindings">Install go-bindings</h2>
+<p>To get started with go, you need to install the go-bindings:</p>
+<pre><code>TF_TYPE=&quot;cpu&quot; # Change to &quot;gpu&quot; for GPU support
+TARGET_DIRECTORY='/usr/local'
+curl -L \
+   &quot;https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-${TF_TYPE}-$(go env GOOS)-x86_64-1.1.0.tar.gz&quot; |
+sudo tar -C $TARGET_DIRECTORY -xz
+
+sudo ldconfig
+
+go get github.com/tensorflow/tensorflow/tensorflow/go
+go test github.com/tensorflow/tensorflow/tensorflow/go
+</code></pre>
+<p>(if any of the above fails, find out why on <a href="https://www.tensorflow.org/install/install_go">https://www.tensorflow.org/install/install_go</a> )</p>
+<h2 id="name-your-tensors-and-operations-before-training">Name your tensors and operations before training</h2>
+<p>To be able to address specific parts of your tensorflow-graph during inference,
+you need to <strong>give names to the tensors and operations</strong> that you are interested in.
+In this case, it is the input-tensor and the inference-step I want to address.</p>
+<p>Here I have named my input-tensor &ldquo;imageinput&rdquo; and the inference-step for &ldquo;infer&rdquo;</p>
+<pre><code># the input-tensor
+x = tf.placeholder(tf.float32, [None, 784], name=&quot;imageinput&quot;)
+
+# the infer operation
+infer = tf.argmax(y,1, name=&quot;infer&quot;)
+</code></pre>
+<p>If you are interested in the result of other tensors or operations, be sure to name them as well. For instance, you will probably be interested in
+the accuracy of each inference, so go ahead and give the accuracy-operation a proper name.</p>
+<h2 id="save-your-model-with-a-tag">Save your model with a tag</h2>
+<p>You need to build <strong>a save-builder with a tag</strong> before saving your trained model. This is to fetch the correct graph when reading the graph from go.</p>
+<pre><code>builder = tf.saved_model.builder.SavedModelBuilder(&quot;export2&quot;)
+
+builder.add_meta_graph_and_variables(sess,[&quot;serve&quot;])
+
+builder.save()
+</code></pre>
+<p>For the complete python-code for this example, have a look at <a href="https://github.com/nilsmagnus/tensorflow-with-go/blob/master/mnist.py">the code on github</a>.</p>
+<h2 id="using-the-model-in-go">Using the model in go</h2>
+<p>Import the tensorflow bindings as tf</p>
+<pre><code>import (
+    &quot;fmt&quot;
+    tf &quot;github.com/tensorflow/tensorflow/tensorflow/go&quot;
+)
+</code></pre>
+<p>Now , load the model with the tensorflow binding function <em>tf.LoadSavedModel(&hellip;)</em>. Use the same tag-name as you specified when saving the model:</p>
+<pre><code>func main() {
+
+    model, err := tf.LoadSavedModel(&quot;mnistmodel&quot;, []string{&quot;serve&quot;}, nil)
+
+    if err != nil {
+        fmt.Printf(&quot;Error loading saved model: %s\n&quot;, err.Error())
+        return
+    }
+
+    defer model.Session.Close()
+</code></pre>
+<p>The  input in the example code is just dummy-input with a blank matrix. Be sure to match the dimensions of the input you defined in your trained model. In this case I will define a 2-d matrix of type float32 with dimensions 1x784 since the mnist-images are 784 pixels.</p>
+<pre><code>    tensor, terr := dummyInputTensor(28 * 28) // replace this with your own data
+    if terr != nil {
+        fmt.Printf(&quot;Error creating input tensor: %s\n&quot;, terr.Error())
+        return
+    }
+</code></pre>
+<p>Now, this is the most important part: executing the tensorflow graph and getting the results.
+In order to use the graph, we need to <strong>address the input-tensor and the operation</strong> to instruct tensorflow where to put our input and what operations in the graph we want to execute.
+In  this case, i have named my input <strong>inputimage</strong> and my inference-operation <strong>infer</strong>. If everything works fine, the result(s) is returned
+to the <strong>result</strong> variable.</p>
+<pre><code>    result, runErr := model.Session.Run(
+        map[tf.Output]*tf.Tensor{
+            model.Graph.Operation(&quot;imageinput&quot;).Output(0): tensor,
+        },
+        []tf.Output{
+            model.Graph.Operation(&quot;infer&quot;).Output(0),
+        },
+        nil,
+    )
+
+    if runErr != nil {
+        fmt.Printf(&quot;Error running the session with input, err: %s\n&quot;, runErr.Error())
+        return
+    }
+</code></pre>
+<p>Again, the dimension of the result is the same as defined in your tensorflow model, so you might want to tweak this part.</p>
+<p>The result in the <strong>infer-operation</strong> is a matrix with 1 value:</p>
+<pre><code>    fmt.Printf(&quot;Most likely number in input is %v \n&quot;, result[0].Value())
+
+}
+</code></pre>
+<h2 id="example-code">Example code</h2>
+<p>The code for both training and inference can be found in its completeness on github at
+<a href="https://github.com/nilsmagnus/tensorflow-with-go">https://github.com/nilsmagnus/tensorflow-with-go</a></p>
+<h2 id="similar-blogposts">Similar blogposts</h2>
+<p>I have not found any documentation or end-to-end example of what I have described here, but there is a nice post about working with golang and tensorflow in general here:
+<a href="https://pgaleone.eu/tensorflow/go/2017/05/29/understanding-tensorflow-using-go/?utm_source=golangweekly&amp;utm_medium=email">https://pgaleone.eu/tensorflow/go/2017/05/29/understanding-tensorflow-using-go/?utm_source=golangweekly&amp;utm_medium=email</a></p>
+
+</article>
+
+
+
+</body>
+
+</html>

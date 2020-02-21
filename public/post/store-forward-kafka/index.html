@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Store and forward with kafka | Random codewalks</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.65.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://localhost:8080/css/index.css">
+<link rel="stylesheet" href="http://localhost:8080/css/classes.css">
+<link rel="canonical" href="http://localhost:8080/post/store-forward-kafka/">
+<link rel="alternate" type="application/rss+xml" href="" title="Random codewalks">
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://localhost:8080/">Random codewalks</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Store and forward with kafka</h1>
+    <time datetime="2018-09-08T19:09:58&#43;01:00">September 08, 2018</time>
+  </header>
+  <p>Store and forward is a technique normally applied in hardware-routing and networking to avoid package-loss. If we apply the same technique when sending records to kafka, we dont have to deal downtime of your kafka-cluster.</p>
+<h2 id="store-and-forward">Store and forward</h2>
+<p>&ldquo;Store and forward&rdquo; is a technique used widely in telecommunications and in router technology. The idea is simple: when we want to send a packet, instead of sending it directly, the packet is stored in a cache or a local storage and sent to the network at a later point. If the transmission of the package is successful, the package is deleted from the local storage. If the transmission failed in some way, the package remains in the storage and is retried at a later point.</p>
+<h2 id="applied-to-kafka-producers">Applied to kafka producers</h2>
+<p>This same technique can be applied to any kafka-producer when appending records to kafka. Instead of adding the record directly to kafka, the records are stored as serialized objects in a temporary database along with the topic they should be appended to. A scheduled task should check if there are any records in the temporary database and deserialize before sending them off on the destined topic. If the send is succesful, the record is deleted from the temporary database. If the send is unsuccesful, the records remain untouched and will be picked up by the scheduled task at a later point.</p>
+<h2 id="a-note-on-avro-or-any-other-schema">A note on avro (or any other schema)</h2>
+<p>If you are using avro as the wire-format for your records, you probably want to store the schema-name and version along with the serialized version of the record for debugging purposes.</p>
+<h2 id="benefits">Benefits</h2>
+<p>When using this technique/pattern you can sit back and relax when your kafka-cluster is down due to maintenance or having troubles for one reason or the other. The producing applications does not have to be taken down and will recover the minute the kafka-cluster is back up.</p>
+
+</article>
+
+
+
+</body>
+
+</html>

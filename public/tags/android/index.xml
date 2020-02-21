@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>android on Random codewalks</title>
+    <link>http://localhost:8080/tags/android/</link>
+    <description>Recent content in android on Random codewalks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 26 Sep 2017 19:56:52 +0100</lastBuildDate>
+    
+	<atom:link href="http://localhost:8080/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Converting an android project to kotlin</title>
+      <link>http://localhost:8080/post/android-annotations-kotlin/</link>
+      <pubDate>Tue, 26 Sep 2017 19:56:52 +0100</pubDate>
+      
+      <guid>http://localhost:8080/post/android-annotations-kotlin/</guid>
+      <description>This is a small write-up of my experiences from converting a native android-app from java to kotlin.
+TLDR;  Convert the project using android studio Handle nullability-compilation errors Android annotations  build script apply lateinit on @ViewById   Convert your data-objects into small classes, go for immutable classes Kotlin is cool, and immutability rocks. Bugs in android-studio shows that it is still early days for kotlin-development on android.  Convert your project!</description>
+    </item>
+    
+  </channel>
+</rss>

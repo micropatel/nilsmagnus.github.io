@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://localhost:8080/tags/cuda/</loc>
+    <lastmod>2020-01-21T07:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/jetson-nano/</loc>
+    <lastmod>2020-01-21T07:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/opencv/</loc>
+    <lastmod>2020-01-21T07:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/</loc>
+    <lastmod>2020-01-21T07:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/</loc>
+    <lastmod>2020-01-21T07:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/</loc>
+    <lastmod>2020-01-21T07:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/yolo-jetson/</loc>
+    <lastmod>2020-01-21T07:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/yolo/</loc>
+    <lastmod>2020-01-21T07:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/basics/</loc>
+    <lastmod>2018-11-06T20:43:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/go/</loc>
+    <lastmod>2018-11-06T20:43:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/nil/</loc>
+    <lastmod>2018-11-06T20:43:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/nillability/</loc>
+    <lastmod>2018-11-06T20:43:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/nillability-in-go/</loc>
+    <lastmod>2018-11-06T20:43:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/nils/</loc>
+    <lastmod>2018-11-06T20:43:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/null/</loc>
+    <lastmod>2018-11-06T20:43:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/nullability/</loc>
+    <lastmod>2018-11-06T20:43:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/logging/</loc>
+    <lastmod>2018-09-24T18:45:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/makefile/</loc>
+    <lastmod>2018-09-24T18:45:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/write-go-like-a-pro/</loc>
+    <lastmod>2018-09-24T18:45:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/kafka/</loc>
+    <lastmod>2018-09-08T19:09:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/pro-tip/</loc>
+    <lastmod>2018-09-08T19:09:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/store-forward-kafka/</loc>
+    <lastmod>2018-09-08T19:09:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/async/</loc>
+    <lastmod>2018-02-25T14:28:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/coroutines-basics/</loc>
+    <lastmod>2018-02-25T14:28:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/coroutines/</loc>
+    <lastmod>2018-02-25T14:28:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/kotlin/</loc>
+    <lastmod>2018-02-25T14:28:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/grib2/</loc>
+    <lastmod>2018-02-23T11:09:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/griblib/</loc>
+    <lastmod>2018-02-23T11:09:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/grib2-adventures/</loc>
+    <lastmod>2018-02-23T11:09:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/weather/</loc>
+    <lastmod>2018-02-23T11:09:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/android/</loc>
+    <lastmod>2017-09-26T19:56:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/android-annotations/</loc>
+    <lastmod>2017-09-26T19:56:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/android-annotations-kotlin/</loc>
+    <lastmod>2017-09-26T19:56:52+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/inference/</loc>
+    <lastmod>2017-07-03T15:45:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/tensorflow/</loc>
+    <lastmod>2017-07-03T15:45:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/go-tensorflow/</loc>
+    <lastmod>2017-07-03T15:45:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/proto-json-sizes/</loc>
+    <lastmod>2017-04-09T21:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/json/</loc>
+    <lastmod>2017-04-09T21:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/proto/</loc>
+    <lastmod>2017-04-09T21:44:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/post/hello-hugo/</loc>
+    <lastmod>2017-03-14T19:45:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/hello-world/</loc>
+    <lastmod>2017-03-14T19:45:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/tags/hugo/</loc>
+    <lastmod>2017-03-14T19:45:58+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://localhost:8080/categories/</loc>
+  </url>
+  
+</urlset>

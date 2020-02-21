@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Comparing sizes of protobuf vs json | Random codewalks</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.65.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://localhost:8080/css/index.css">
+<link rel="stylesheet" href="http://localhost:8080/css/classes.css">
+<link rel="canonical" href="http://localhost:8080/post/proto-json-sizes/">
+<link rel="alternate" type="application/rss+xml" href="" title="Random codewalks">
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://localhost:8080/">Random codewalks</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Comparing sizes of protobuf vs json</h1>
+    <time datetime="2017-04-09T21:44:01&#43;01:00">April 09, 2017</time>
+  </header>
+  <p><strong>update</strong>: now comparing gzipped json vs gzipped protobuf</p>
+<p>Google Protobuffer is a binary format claiming to much more compact than json and other text-formats, but just how much less space does it require? Does it hold for large arrays of data?</p>
+<p>In this blogpost I will compare the sizes of the two formats.</p>
+<h2 id="test-data-with-array-of-tickers">Test-data with array of tickers</h2>
+<p>I will generate test-data with a home made tool, you can find it on github: <a href="https://github.com/nilsmagnus/protobuf-json-xml-size-comparison">https://github.com/nilsmagnus/protobuf-json-xml-size-comparison</a></p>
+<p>The content of the data is defined in a proto-message:</p>
+<pre><code>syntax = &quot;proto3&quot;;
+
+package sample;
+
+message Test {
+  string query = 1;
+  int32 page_number = 2;
+  int32 result_per_page = 3;
+  repeated Ticker tickers = 4;
+}
+
+message Ticker {
+  string name = 1;
+  float value = 2;
+}
+</code></pre>
+<p>There is 1 string, 2 ints and an array of possibly unlimited array of tickers.</p>
+<p>The ticker-name is a random string of size 3 and the value is a random float value between 0.0 and 9.99.
+In json could looks like this with 2 tickers in the array:</p>
+<pre><code>{
+  &quot;query&quot;: &quot;myQuery&quot;,
+  &quot;page_number&quot;: 42,
+  &quot;result_per_page&quot;: 100,
+  &quot;tickers&quot;: [
+    {
+      &quot;name&quot;: &quot;rPs&quot;,
+      &quot;value&quot;: 9.768923
+    },
+    {
+      &quot;name&quot;: &quot;WEo&quot;,
+      &quot;value&quot;: 6.067048
+    }
+  ]
+}
+</code></pre>
+<h2 id="the-numbers">The numbers</h2>
+<p>Comparing the raw-size only of json would be unfair, since it is usually gzipped before transfer between client/servers.</p>
+<p>However, take into account that when gzipping content you are using additional cpu to zip the content which is not needed when using protobuf.</p>
+<p><em>The size-numbers are in bytes.</em></p>
+<h3 id="raw-json">Raw json</h3>
+<table>
+<thead>
+<tr>
+<th>no of tickers</th>
+<th>size raw json</th>
+<th>size protobuf</th>
+<th>protobuf size(%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>58</td>
+<td>13</td>
+<td>22.4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>102</td>
+<td>25</td>
+<td>24.5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>133</td>
+<td>37</td>
+<td>27.8</td>
+</tr>
+<tr>
+<td>10</td>
+<td>396</td>
+<td>133</td>
+<td>33.6</td>
+</tr>
+<tr>
+<td>20</td>
+<td>724</td>
+<td>253</td>
+<td>34.9</td>
+</tr>
+<tr>
+<td>200</td>
+<td>6578</td>
+<td>2413</td>
+<td>36.7</td>
+</tr>
+<tr>
+<td>2000</td>
+<td>65250</td>
+<td>24013</td>
+<td>36.8</td>
+</tr>
+</tbody>
+</table>
+<p>Protobuf is clearly the winner for all sizes of the ticker-list, but is best when the
+ticker-list is smaller.</p>
+<h3 id="gzipped-json-and-gzipped-protobuf">gzipped json and gzipped protobuf</h3>
+<p>The common case for transferring json-messages is to gzip them first, so lets see how that affects our numbers.</p>
+<table>
+<thead>
+<tr>
+<th>no of tickers</th>
+<th>size gzipped json</th>
+<th>gzipped protobuf</th>
+<th>gzipped protobuf size(%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>82</td>
+<td>42</td>
+<td>51.21</td>
+</tr>
+<tr>
+<td>1</td>
+<td>125</td>
+<td>54</td>
+<td>43.20</td>
+</tr>
+<tr>
+<td>2</td>
+<td>142</td>
+<td>64</td>
+<td>45.07</td>
+</tr>
+<tr>
+<td>10</td>
+<td>235</td>
+<td>137</td>
+<td>58.29</td>
+</tr>
+<tr>
+<td>20</td>
+<td>331</td>
+<td>230</td>
+<td>69.48</td>
+</tr>
+<tr>
+<td>200</td>
+<td>1970</td>
+<td>1629</td>
+<td>82.69</td>
+</tr>
+<tr>
+<td>2000</td>
+<td>17539</td>
+<td>14808</td>
+<td>84.42</td>
+</tr>
+<tr>
+<td>20000</td>
+<td>171154</td>
+<td>146378</td>
+<td>85.52</td>
+</tr>
+</tbody>
+</table>
+<p>Protobuf clearly wins on the smaller map-sizes, but loses its clear advantage when the ticker-list grows in size.</p>
+<p>Protobuf is still the winner on all sizes.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Protocol buffers is a clear winner for small messages where the protobuf size is as small as 16% of the gzipped json size.</p>
+<p>However, when large arrays of data is transferred, gzipped protobuf is still smaller but seems to lose its clear advantage in message size to gzipped json.</p>
+<h1 id="read-more">Read more</h1>
+<p>Read more about protobuf in the documentation: <a href="https://developers.google.com/protocol-buffers/">https://developers.google.com/protocol-buffers/</a></p>
+
+</article>
+
+
+
+</body>
+
+</html>

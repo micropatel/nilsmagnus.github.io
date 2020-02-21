@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kafka on Random codewalks</title>
+    <link>http://localhost:8080/tags/kafka/</link>
+    <description>Recent content in kafka on Random codewalks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Sep 2018 19:09:58 +0100</lastBuildDate>
+    
+	<atom:link href="http://localhost:8080/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Store and forward with kafka</title>
+      <link>http://localhost:8080/post/store-forward-kafka/</link>
+      <pubDate>Sat, 08 Sep 2018 19:09:58 +0100</pubDate>
+      
+      <guid>http://localhost:8080/post/store-forward-kafka/</guid>
+      <description>Store and forward is a technique normally applied in hardware-routing and networking to avoid package-loss. If we apply the same technique when sending records to kafka, we dont have to deal downtime of your kafka-cluster.
+Store and forward &amp;ldquo;Store and forward&amp;rdquo; is a technique used widely in telecommunications and in router technology. The idea is simple: when we want to send a packet, instead of sending it directly, the packet is stored in a cache or a local storage and sent to the network at a later point.</description>
+    </item>
+    
+  </channel>
+</rss>

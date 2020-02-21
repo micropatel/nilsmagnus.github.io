@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Hello hugo on github.io | Random codewalks</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.65.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://localhost:8080/css/index.css">
+<link rel="stylesheet" href="http://localhost:8080/css/classes.css">
+<link rel="canonical" href="http://localhost:8080/post/hello-hugo/">
+<link rel="alternate" type="application/rss+xml" href="" title="Random codewalks">
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://localhost:8080/">Random codewalks</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Hello hugo on github.io</h1>
+    <time datetime="2017-03-14T19:45:58&#43;01:00">March 14, 2017</time>
+  </header>
+  <p>This blog is built using hugo. So my first blogpost is dedicated to how I set it up on github.</p>
+<h1 id="installation">installation</h1>
+<p>install the bleeding edge hugo version by running</p>
+<pre><code>go get -v github.com/spf13/hugo
+</code></pre>
+<p>verify the installation by typing</p>
+<pre><code>hugo -h
+</code></pre>
+<p>this should display the help screen for hugo</p>
+<h1 id="create-hello-world">create hello world</h1>
+<h2 id="create-blog-hosted-on-githubio">create blog hosted on github.io</h2>
+<p>On github, create a repository <em>&quot;&lt;yourusername&gt;.github.io&rdquo;</em>, e.g. <em>&ldquo;nilsmagnus.github.io&rdquo;</em> .</p>
+<p>Clone the repo and cd into the directory.</p>
+<p>From the root of your repository, run the command</p>
+<pre><code>hugo new site blog
+</code></pre>
+<p>This will create a directory , <em>blog</em> , in your repo with the needed files</p>
+<h2 id="add-a-theme-and-config">add a theme and config</h2>
+<p>Since hugo does not have a default theme, you need to get one. This can be changed at a later point.</p>
+<pre><code>cd &lt;repo&gt;/blog/themes &amp;&amp; git clone https://github.com/dim0627/hugo_theme_robust.git 
+</code></pre>
+<p>To avoid submodule conflicts with github, delete the <em>.git</em> directory in <em>&lt;repo&gt;/blog/themes/hugo_robust_theme</em>.</p>
+<p>To specify that you want to use the theme, edit <em>&lt;repo&gt;/blog/config.toml</em>, add these lines</p>
+<pre><code>baseUrl = &quot;https://&lt;yourusername&gt;.github.io&quot;
+title = &quot;Ubeercool blog name&quot;
+theme = &quot;hugo_theme_robust&quot;
+publishDir = &quot;../&quot;
+</code></pre>
+<p>This will also set the name of your blog and publish the blog to the parent directory (<em>&quot;&lt;repo&gt;/&quot;</em>).</p>
+<h2 id="add-a-first-blogpost">add a first blogpost</h2>
+<p>Add a first blogpost by typing (from <em>&lt;repo&gt;/blog</em>)</p>
+<pre><code>hugo new post/hello-world.md
+</code></pre>
+<p>Edit this file by adding the following lines:</p>
+<pre><code>+++
+date = &quot;2017-03-14T16:11:58+05:30&quot;
+draft = false
+title = &quot;Hello hugo world&quot;
++++
+
+# Hello world
+
+You look _beautiful_ in markdown.
+</code></pre>
+<p>Now run hugo without parameters,</p>
+<pre><code>hugo
+</code></pre>
+<p>This will generate the entire blog. Now, add all your files(generated and source) to git and push the changes.</p>
+<p><strong>done</strong></p>
+
+</article>
+
+
+
+</body>
+
+</html>

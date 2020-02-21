@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Concurrency made easy(easier) with coroutines | Random codewalks</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.65.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://localhost:8080/css/index.css">
+<link rel="stylesheet" href="http://localhost:8080/css/classes.css">
+<link rel="canonical" href="http://localhost:8080/post/coroutines-basics/">
+<link rel="alternate" type="application/rss+xml" href="" title="Random codewalks">
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://localhost:8080/">Random codewalks</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Concurrency made easy(easier) with coroutines</h1>
+    <time datetime="2018-02-25T14:28:58&#43;01:00">February 25, 2018</time>
+  </header>
+  <p>Coroutines can be looked at as lightweight threads that enables us to write simple
+concurrent code in kotlin. It enables us to execute concurrent code without much
+effort and write async code in a sequential style,
+hiding the noise introduced by explicitly handling async events and callbacks. The result is
+readable, high-performant code.</p>
+<p>Instead of the dealing with callbacks and synchronisation, the developer can focus on real,
+value-adding code and let the runtime handle callbacks transparently.</p>
+<p>In this post I will give a short background for coroutines and show some samples of
+how coroutines can simplify and improve async code.</p>
+<h2 id="the-basic-case-for-coroutines">The basic case for coroutines</h2>
+<p>Coroutines are cheaper than Threads and are therfore faster to create. Threads are by default
+allocated 1024kb on most jvms, so creating a lot of new threads will cost you
+a lot of memory. This might be fine for a low number of threads, but dealing with large number of
+threads quickly becomes a problem.</p>
+<p>Starting 100_000 concurrent threads on my laptop quickly produces an OutOfMemoryError:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">(</span>0<span style="color:#f92672">..</span><span style="color:#a6e22e">100_000</span><span style="color:#f92672">).</span><span style="color:#a6e22e">forEach</span> <span style="color:#f92672">{</span>
+    Thread <span style="color:#f92672">{</span>
+       sleep<span style="color:#f92672">(</span>1000<span style="color:#f92672">)</span>
+       print<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;.&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">()</span>
+<span style="color:#f92672">}</span>
+Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>10_000<span style="color:#f92672">)</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Exception in thread <span style="color:#e6db74">&#34;main&#34;</span> java.lang.OutOfMemoryError: unable to create new native thread
+	at java.lang.Thread.start0<span style="color:#f92672">(</span>Native Method<span style="color:#f92672">)</span>
+	at java.lang.Thread.start<span style="color:#f92672">(</span>Thread.java:717<span style="color:#f92672">)</span>
+	at nilspils.ManyThreadsKt.main<span style="color:#f92672">(</span>ManyThreads.kt:11<span style="color:#f92672">)</span>
+</code></pre></div><p>Using 100_000 coroutines on the other hand has no difficulties to complete:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">(</span>1<span style="color:#f92672">..</span><span style="color:#a6e22e">100_000</span><span style="color:#f92672">).</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">{</span>
+    launch <span style="color:#f92672">{</span>
+        delay<span style="color:#f92672">(</span>1000<span style="color:#f92672">)</span>
+        print<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;.&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// &#34;runBlocking&#34; is a special coroutine that runs on mainthread 
+</span><span style="color:#75715e">// and waits to finish before continuing main
+</span><span style="color:#75715e"></span>runBlocking <span style="color:#f92672">{</span> 
+    delay<span style="color:#f92672">(</span>10_000<span style="color:#f92672">)</span>   
+    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;done&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Kotlin also has built in support for channels meant for communicating between coroutines. We will get back to that (and CSP) later in the article.</p>
+<h2 id="launching-a-coroutine">Launching a coroutine</h2>
+<p>To launch a coroutine, the <code>launch</code> keyword is used. Everything inside a <code>launch</code> block is a co-routine that will now be
+executed concurrently by a special <code>Threadpool</code> managed by the runtime. Since the coroutine is managed by the runtime, we cannot know for certain
+that it will execute before or after the code outside the coroutine, the scheduling of the coroutine is entirely done by the runtime.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">launch<span style="color:#f92672">{</span>
+    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;in coroutine ${Thread.currentThread().getName()}&#34;</span><span style="color:#f92672">)</span> 
+    delay<span style="color:#f92672">(</span>199<span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;outside coroutine ${Thread.currentThread().getName()}&#34;</span><span style="color:#f92672">)</span> 
+</code></pre></div><p>outputs</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">outside coroutine: main
+inside coroutine: ForkJoinPool.commonPool-worker-9
+</code></pre></div><p>Notice that the thread of the coroutine is named <code>ForkJoinPool.commonPool-worker-9</code>, a thread managed by the runtime.</p>
+<p>The <code>delay()</code> method is a suspendable function, wich means that at this point the runtime knows that it is safe to suspend the execution of the coroutine at this point.</p>
+<h2 id="callbacks-vs-coroutines">Callbacks vs coroutines</h2>
+<p>Using callbacks to deal with async code can quickly lead to &ldquo;callback-hell&rdquo; style code, where you end up with
+nested.</p>
+<p>Consider the following async-code</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">fun <span style="color:#a6e22e">asyncCallBackCodeProcessing</span><span style="color:#f92672">(</span>arg<span style="color:#f92672">:</span> String<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    requestValidation<span style="color:#f92672">(</span>arg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        postValidationAction <span style="color:#f92672">{</span> validationResult <span style="color:#f92672">-&gt;</span>
+            saveResult<span style="color:#f92672">(</span>validationResult<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> savedResult <span style="color:#f92672">-&gt;</span>
+                writeResultToResponse<span style="color:#f92672">(</span>savedResult<span style="color:#f92672">)</span>
+            <span style="color:#f92672">}</span><span style="color:#75715e">// aka-
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span> <span style="color:#75715e">// call-
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span> <span style="color:#75715e">// back-
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#75715e">// hell
+</span></code></pre></div><p>And this does not handle any errors in the process. What starts out as a simple call-back evolves into a complex callback-chain
+that quickly becomes code that is both unreadable and hard to reason about and test.</p>
+<p>Now consider the equivalent sequential code:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">suspend fun <span style="color:#a6e22e">sequentialProcessing</span><span style="color:#f92672">(</span>arg<span style="color:#f92672">:</span> String<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    val validationResult <span style="color:#f92672">=</span> requestValidation<span style="color:#f92672">(</span>arg<span style="color:#f92672">)</span>
+    postValidationAction<span style="color:#f92672">(</span>validationResult<span style="color:#f92672">)</span>
+    val savedResult <span style="color:#f92672">=</span> saveResult<span style="color:#f92672">(</span>validationResult<span style="color:#f92672">)</span>
+    writeResultToResponse<span style="color:#f92672">(</span>savedResult<span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Can you see all the times we <strong>don&rsquo;t need to care about any asynchronous behavior</strong> in the latter code-example?</p>
+<p>On android we can take use of the built-in AsyncTask for dealing with async operations. It is an interface that allows you
+to not dealing with callbacks yourself, but you have to split the code into backtround-code in the method
+<code>doInBackground</code> and what happens when the code has completed in the method <code>onPostExecute</code>.</p>
+<p>In one of my android-apps I have the following code</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// with AsyncTask
+</span><span style="color:#75715e"></span>fun <span style="color:#a6e22e">addPackage</span><span style="color:#f92672">(</span>phoneId<span style="color:#f92672">:</span> String<span style="color:#f92672">,</span> packageNumber<span style="color:#f92672">:</span> String<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        object <span style="color:#f92672">:</span> AsyncTask<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">,</span> Void<span style="color:#f92672">,</span> Boolean<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+            override fun <span style="color:#a6e22e">doInBackground</span><span style="color:#f92672">(</span>vararg params<span style="color:#f92672">:</span> Void<span style="color:#f92672">):</span> Boolean<span style="color:#f92672">?</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                    <span style="color:#66d9ef">return</span> server<span style="color:#f92672">.</span><span style="color:#a6e22e">addPackage</span><span style="color:#f92672">(</span>phoneId<span style="color:#f92672">,</span> packageNumber<span style="color:#f92672">)</span>
+                <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">:</span> IOException<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    Log<span style="color:#f92672">.</span><span style="color:#a6e22e">e</span><span style="color:#f92672">(</span>TAG<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Error adding package to server&#34;</span><span style="color:#f92672">,</span> e<span style="color:#f92672">)</span>
+                <span style="color:#f92672">}</span>
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+            <span style="color:#f92672">}</span>
+
+            override fun <span style="color:#a6e22e">onPostExecute</span><span style="color:#f92672">(</span>success<span style="color:#f92672">:</span> Boolean<span style="color:#f92672">?)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onPostExecute</span><span style="color:#f92672">(</span>success<span style="color:#f92672">)</span>
+                val intent <span style="color:#f92672">=</span> Intent<span style="color:#f92672">(</span>BroadcastActions<span style="color:#f92672">.</span><span style="color:#a6e22e">ADD_PACKAGE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">)</span>
+                val bundle <span style="color:#f92672">=</span> Bundle<span style="color:#f92672">()</span>
+                bundle<span style="color:#f92672">.</span><span style="color:#a6e22e">putBoolean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">,</span> success<span style="color:#f92672">!!)</span>
+                bundle<span style="color:#f92672">.</span><span style="color:#a6e22e">putString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;package&#34;</span><span style="color:#f92672">,</span> packageNumber<span style="color:#f92672">)</span>
+                intent<span style="color:#f92672">.</span><span style="color:#a6e22e">putExtras</span><span style="color:#f92672">(</span>bundle<span style="color:#f92672">)</span>
+                context<span style="color:#f92672">.</span><span style="color:#a6e22e">sendBroadcast</span><span style="color:#f92672">(</span>intent<span style="color:#f92672">)</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}.</span><span style="color:#a6e22e">executeOnExecutor</span><span style="color:#f92672">(</span>AsyncTask<span style="color:#f92672">.</span><span style="color:#a6e22e">THREAD_POOL_EXECUTOR</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>    
+</code></pre></div><p>Making use of coroutines I can now have a sequential style code without having to deal with any of these callbacks, and the
+code instantly becomes more understandable:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// with coroutine 
+</span><span style="color:#75715e"></span>fun <span style="color:#a6e22e">addPackage</span><span style="color:#f92672">(</span>phoneId<span style="color:#f92672">:</span> String<span style="color:#f92672">,</span> packageNumber<span style="color:#f92672">:</span> String<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   launch <span style="color:#f92672">{</span>
+        val success <span style="color:#f92672">=</span> server<span style="color:#f92672">.</span><span style="color:#a6e22e">addPackage</span><span style="color:#f92672">(</span>phoneId<span style="color:#f92672">,</span> packageNumber<span style="color:#f92672">)</span>
+        val intent <span style="color:#f92672">=</span> Intent<span style="color:#f92672">(</span>BroadcastActions<span style="color:#f92672">.</span><span style="color:#a6e22e">ADD_PACKAGE</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">)</span>
+        val bundle <span style="color:#f92672">=</span> Bundle<span style="color:#f92672">()</span>
+        bundle<span style="color:#f92672">.</span><span style="color:#a6e22e">putBoolean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">,</span> success<span style="color:#f92672">)</span>
+        bundle<span style="color:#f92672">.</span><span style="color:#a6e22e">putString</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;package&#34;</span><span style="color:#f92672">,</span> packageNumber<span style="color:#f92672">)</span>
+        intent<span style="color:#f92672">.</span><span style="color:#a6e22e">putExtras</span><span style="color:#f92672">(</span>bundle<span style="color:#f92672">)</span>
+        androidContext<span style="color:#f92672">.</span><span style="color:#a6e22e">sendBroadcast</span><span style="color:#f92672">(</span>intent<span style="color:#f92672">)</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Now all my async-code is gone in favour of a simple coroutine, and all I had to do was using the <code>launch</code> method.</p>
+<h2 id="csp-and-actors-with-coroutines">CSP and actors with coroutines</h2>
+<p>If you want to do some paralell work, not just concurrent, you should be aware of CSP or the actor model. CSP(communicating sequential processes)
+is not a new way of thinking, but dates back to a theorem from <a href="http://www.usingcsp.com/">Tony Hoares</a>. The theory in practice ends up in a number of
+routines that communicates over <code>channels</code> instead of some shared state. The theory can be summarized as this:</p>
+<p><em>Do not communicate by sharing memory; instead, share memory by communicating.</em></p>
+<p>In kotlin we use the built in <code>Channel&lt;T&gt;</code> as the link between any number of coroutines as a form of typed micro-message-bus.</p>
+<p>Here we have 150 coroutines that each post an int to a common channel and a routine that reads from this channel.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// simple CSP example
+</span><span style="color:#75715e"></span>
+val channel <span style="color:#f92672">=</span> Channel<span style="color:#f92672">&lt;</span>Int<span style="color:#f92672">&gt;()</span>
+
+<span style="color:#f92672">(</span>1<span style="color:#f92672">..</span><span style="color:#a6e22e">150</span><span style="color:#f92672">).</span><span style="color:#a6e22e">forEach</span> <span style="color:#f92672">{</span> number <span style="color:#f92672">-&gt;</span>
+    launch <span style="color:#f92672">{</span>
+        channel<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span>number<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+runBlocking <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>i in channel<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;got from channel&#34;</span> <span style="color:#f92672">+</span> i<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>With csp we use <em>anonymous coroutines and named channels</em>. A different pattern, the actor model, uses <em>named coroutines</em> with anonymous channels.</p>
+<p>The principle is much the same: don&rsquo;t communicate with a shared state, communicate over a channel.  In kotlin we use <code>Actor&lt;T&gt;</code> wich implicitly
+has a channel of type <code>&lt;T&gt;</code> it can refer to.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// simple actor example
+</span><span style="color:#75715e"></span>
+val actor <span style="color:#f92672">=</span> actor<span style="color:#f92672">&lt;</span>Int<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>message in channel<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;got &#34;</span> <span style="color:#f92672">+</span> message<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+launch <span style="color:#f92672">{</span>
+    repeat<span style="color:#f92672">(</span>10<span style="color:#f92672">){</span>count<span style="color:#f92672">-&gt;</span>
+        actor<span style="color:#f92672">.</span><span style="color:#a6e22e">send</span><span style="color:#f92672">(</span>count<span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+    actor<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">()</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="learn-more">Learn more</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=_hfBv0a09Jc">Youtube: introduction to coroutines</a></li>
+<li><a href="https://www.youtube.com/watch?v=YrrUCSi72E8">Youtube: deep dives into coroutines</a></li>
+<li><a href="https://kotlinlang.org/docs/reference/coroutines.html">kotlinlang.org: Coroutine reference</a></li>
+<li><a href="https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md">github.com: Coroutines by example</a></li>
+<li><a href="https://blog.golang.org/concurrency-is-not-parallelism">Rob Pike featured on the golang-blog: concurrency is not parallelism</a></li>
+</ul>
+
+</article>
+
+
+
+</body>
+
+</html>

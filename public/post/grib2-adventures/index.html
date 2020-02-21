@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<title>Using griblib for Meteorology | Random codewalks</title>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.65.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="http://localhost:8080/css/index.css">
+<link rel="stylesheet" href="http://localhost:8080/css/classes.css">
+<link rel="canonical" href="http://localhost:8080/post/grib2-adventures/">
+<link rel="alternate" type="application/rss+xml" href="" title="Random codewalks">
+
+<body>
+
+<header class="icons">
+  
+    <a href="http://localhost:8080/">Random codewalks</a>
+  
+  
+  
+</header>
+
+<article>
+  <header>
+    <h1>Using griblib for Meteorology</h1>
+    <time datetime="2018-02-23T11:09:58&#43;01:00">February 23, 2018</time>
+  </header>
+  <p>Griblib is a library written in go to read grib2 files and do some filtering on the content. This post describes some details about how griblib is built and intended usage.</p>
+<h2 id="grib2-a-binary-format-for-meteorology">GRIB2: a binary format for meteorology</h2>
+<p>GRIB: <strong>G</strong> eneral <strong>R</strong> egularly-distributed <strong>I</strong> nformation in <strong>B</strong> inary form</p>
+<p>Grib2 is a binary file-format used to store forecasts and historical data. The content can be meteorological, space-weather, sea-conditions etc. In this post I will only focus on meteorological data. It is the defacto standard for distributing meteoroligical data, so If you want to read the raw data you probably want to be able to read grib2-files.</p>
+<p>Grib2 files from <a href="http://www.noaa.gov/">http://www.noaa.gov/</a> are distributed freely from the
+<a href="http://www.ftp.ncep.noaa.gov/data/nccf/com/gfs/prod/">nooa file server</a>
+where the most recent forecasts can be downloaded. Documentation for grib2 can
+be found several places,
+but <a href="http://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_doc.shtml">noaas docs</a>
+is a good place to start if you need to look up some specific documentation.</p>
+<h2 id="data-in-grib2-files">Data in grib2 files</h2>
+<p>Each grib2 file contains 1 or more <em>messages</em> where each message contains some meteorology data in 2d for the whole planet at a specified time. The data can be temperature, wind, moist, pressure at different surfaces. For instance, a normal grib2 file from nooa contains 11 messages with temperature for 11 unique layers, meters over sea-level(isobaric surface).</p>
+<p>The message is built of 8 unique sections, where <code>Section0-6</code> is meta-data, <code>Section7</code> contains the actual data and <code>Section8</code> is the EOM section.</p>
+<p>The data is represented as a 1-dimensional array in <code>Section7</code> of the message. The data format is raw, meaning that it does often not make sense to look at the raw numbers in <code>Section7</code> without scaling or adjusting based on the information from <code>Section0-6</code>.</p>
+<h1 id="griblib">griblib</h1>
+<p>support for:</p>
+<ul>
+<li>reading grib files</li>
+<li>reducing files
+<ul>
+<li>by category and discipline</li>
+<li>by layer-type and layer-value</li>
+<li>by geographical area</li>
+</ul>
+</li>
+</ul>
+<h2 id="why-go">why go</h2>
+<p>Most of the libraries today are written in fortran or c and are not quite readable. You will have a hard time trying to extend
+and modify those libraries unless you spend a significant amount of time trying to understand those libraries.</p>
+<p>One of the purposes of griblib is to have a simple library that is easy to extend and modify, written in a language that lets
+you focus on the data in the grib-files instead of memory-allocations, verbose error-handling etc.</p>
+<h3 id="read-binary-content-to-structs-from-ioreader">Read binary content to structs from io.Reader</h3>
+<p>It turns out that dealing with binary file formats in go is quite pleasant and straight-forward when the
+specification of the file-format is as well documented as the grib2 format. For instance, Section0 is specified as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Octet number</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-4</td>
+<td>&lsquo;GRIB&rsquo; (Coded according to the International Alphabet Number 5)</td>
+</tr>
+<tr>
+<td>5-6</td>
+<td>Reserved</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Discipline (From Table 0.0)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Edition number - 2 for GRIB2</td>
+</tr>
+<tr>
+<td>9-16</td>
+<td>Total length of GRIB message in octets (All sections);</td>
+</tr>
+</tbody>
+</table>
+<p>This means that</p>
+<ul>
+<li>the total length of Section0 is 16 bytes.</li>
+<li>byte 1-4 always contains a constant, representing &lsquo;GRIB&rsquo; .</li>
+<li>byte 7 indicates the discipline of the message(meteorological, hydrological, space, land, oceanic).</li>
+<li>byte 9-16 contains a number that specifies the total length in bytes of this message.</li>
+</ul>
+<p>To read Section0 with golang we need to make sure the <code>struct</code> for Section0 fits with this size and structure.</p>
+<pre><code>type Section0 struct {
+    Indicator     uint32 // uint32 is 4 bytes
+    Reserved      uint16 // 2 bytes
+    Discipline    uint8  // 1 byte
+    Edition       uint8  // 1 byte
+    MessageLength uint64 // 8 bytes
+}
+</code></pre>
+<p>Note that we are not using <code>int</code>, but rather the types <code>uint32</code>,<code>uint8</code>,<code>uint16</code> and <code>uint64</code> as data-types since I need to consider the byte-length of each type to match the binary content.
+When we have a struct that matches the size and content of the section, we can
+use the <code>binary.Read</code> to read from an <code>io.Reader</code> by passing a pointer to a struct, the reader and specifying endianness:</p>
+<pre><code>func ReadSection0(reader io.Reader) (section0 Section0, err error) {
+    section0 = Section0{}
+    err = binary.Read(reader, binary.BigEndian, &amp;section0)
+</code></pre>
+<p>Plain and simple like that, binary read will read the bytes from the reader and create <code>Section0</code> from the bytes. To get this right, it is crucial
+that the data-fields in the <code>Section0</code> struct is aligned with the bytes returned from the reader.</p>
+<p>The <code>io.Reader</code> interface is implemented by several input sources like <code>os.File</code> and the <code>Body</code> field in <code>http.Response</code>. Using the
+interface <code>io.Reader</code> therefore allows us to use both files and http-responses (and whatever implements <code>io.Reader</code>) as a source to read grib-messages.</p>
+<h2 id="focus-constraints">focus, constraints</h2>
+<p>The library supports the common templates used for meteorology, and only complex packating and spatial differencing. Griblib has currently several constraints, some of them are listed here:</p>
+<ul>
+<li>Only Category 0 (Meteorology) is supported</li>
+<li>Only Grid0 is supported(section3) when using filtering. The other grids are supported for reading.</li>
+<li>Only Product0 (analysis or forecast at a horizontal level or in a horizontal layer at a point in time) in Section4 is supported.</li>
+<li>Only DataTemplate3(complex packing and spatial differencing) is supported in section5.</li>
+</ul>
+<h1 id="using-griblib">using griblib</h1>
+<p>To use griblib you can either use it as an application without modifying it, simply <code>go get github.com/nilsmagnus/grib</code> and start using it:</p>
+<pre><code>$ grib -h
+Usage of grib:
+  -category int
+        Filters on Category within discipline. -1 means all categories (default -1)
+  -dataExport
+        Export data values. (default true)
+  -discipline int
+        Filters on Discipline. -1 means all disciplines (default -1)
+  -export int
+        Export format. Valid types are 0 (none) 1(print discipline names) 2(print categories) 3(json) 
+  -file string
+        Grib filepath
+  -latMax int
+        Maximum latitude multiplied with 100000. (default 36000000)
+  -latMin int
+        Minimum latitude multiplied with 100000.
+  -longMax int
+        Maximum longitude multiplied with 100000. (default 9000000)
+  -longMin int
+        Minimum longitude multiplied with 100000. (default -9000000)
+  -maxmsg int
+        Maximum number of messages to parse. Does not work in combination with filters. (default 2147483647)
+  -operation string
+        Operation. Valid values: 'parse', 'reduce'. (default &quot;parse&quot;)
+  -reducefile string
+        Destination for reduced file. (default &quot;reduced.grib2&quot;)
+</code></pre>
+<p>For advanced usage, use it as a library. Add it to your GOPATH and start hacking:</p>
+<pre><code>    file, _ := os.Open(&quot;some.grib.file.003&quot;)
+ 
+    messages, err := griblib.ReadMessages(file)
+ 	
+    filtered := griblib.Filter(messages, griblib.Options{ ... } )
+ 	
+    for _, message := range filtered {
+        // your processing here
+    }
+</code></pre>
+<h1 id="future-of-griblib">future of griblib</h1>
+<p>I am currently using griblib to parse grib2-files from ncep, with focus on forecasts. I am aware of several bugs in
+the library, and am working on fixes when I have time. One of the key areas I will probably focus on in the future is to
+support more packaging types, especially complex packaging without spatial differencing.</p>
+<p>If you happen to have any ideas to improve it, please leave an issue on github with suggestions. Even better: send me a pull-request
+if with fixes and support for un-implemented features(packaging, categories etc. ).</p>
+<p><a href="https://github.com/nilsmagnus/grib">https://github.com/nilsmagnus/grib</a></p>
+
+</article>
+
+
+
+</body>
+
+</html>
